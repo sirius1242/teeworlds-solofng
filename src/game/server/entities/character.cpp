@@ -541,6 +541,7 @@ void CCharacter::Tick()
 	{
 		Die(m_pPlayer->GetCID(), WEAPON_WORLD);
 	}
+	//std::cout<<GameServer()->Collision()->GetCollisionAt(m_Pos.x+GetProximityRadius()/3.f, m_Pos.y-GetProximityRadius()/3.f)<< GameServer()->Collision()->GetCollisionAt(m_Pos.x+GetProximityRadius()/3.f, m_Pos.y-GetProximityRadius()/3.f)<< GameServer()->Collision()->GetCollisionAt(m_Pos.x+GetProximityRadius()/3.f, m_Pos.y-GetProximityRadius()/3.f)<< GameServer()->Collision()->GetCollisionAt(m_Pos.x+GetProximityRadius()/3.f, m_Pos.y-GetProximityRadius()/3.f)<<std::endl;
 
 	// handle Weapons
 	HandleWeapons();

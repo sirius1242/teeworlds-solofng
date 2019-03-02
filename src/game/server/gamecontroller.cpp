@@ -221,7 +221,7 @@ int IGameController::OnCharacterDeath(CCharacter *pVictim, CPlayer *pKiller, int
 		return 0;
 	if(Weapon == WEAPON_NINJA)
 	{
-		pKiller->m_Score+=5;
+		pKiller->m_Score+=g_Config.m_SvSacrificeScore;
 		return 0;
 	}
 	else

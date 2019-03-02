@@ -1,10 +1,10 @@
 /* (c) Magnus Auvinen. See licence.txt in the root of the distribution for more information. */
 /* If you are missing that file, acquire a complete release at teeworlds.com.                */
-#include "dm.h"
+#include "solofng.h"
 
 
-CGameControllerDM::CGameControllerDM(CGameContext *pGameServer)
+CGameControllerSolofng::CGameControllerSolofng(CGameContext *pGameServer)
 : IGameController(pGameServer)
 {
-	m_pGameType = "iDM";
+	m_pGameType = "solofng";
 }

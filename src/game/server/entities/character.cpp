@@ -59,8 +59,7 @@ bool CCharacter::Spawn(CPlayer *pPlayer, vec2 Pos)
 	m_EmoteStop = -1;
 	m_LastAction = -1;
 	m_LastNoAmmoSound = -1;
-	m_ActiveWeapon = WEAPON_GUN;
-	m_LastWeapon = WEAPON_HAMMER;
+	m_ActiveWeapon = WEAPON_LASER;
 	m_QueuedWeapon = -1;
 
 	m_pPlayer = pPlayer;
@@ -686,33 +685,34 @@ bool CCharacter::TakeDamage(vec2 Force, vec2 Source, int Dmg, int From, int Weap
 		return false;
 
 	// m_pPlayer only inflicts half damage on self
-	if(From == m_pPlayer->GetCID())
-		Dmg = max(1, Dmg/2);
+	//if(From == m_pPlayer->GetCID())
+	//	Dmg = max(1, Dmg/2);
 
 	int OldHealth = m_Health, OldArmor = m_Armor;
 	if(Dmg)
 	{
-		if(m_Armor)
-		{
-			if(Dmg > 1)
-			{
-				m_Health--;
-				Dmg--;
-			}
+		m_Health = 0;
+		//if(m_Armor)
+		//{
+		//	if(Dmg > 1)
+		//	{
+		//		m_Health--;
+		//		Dmg--;
+		//	}
 
-			if(Dmg > m_Armor)
-			{
-				Dmg -= m_Armor;
-				m_Armor = 0;
-			}
-			else
-			{
-				m_Armor -= Dmg;
-				Dmg = 0;
-			}
-		}
+		//	if(Dmg > m_Armor)
+		//	{
+		//		Dmg -= m_Armor;
+		//		m_Armor = 0;
+		//	}
+		//	else
+		//	{
+		//		m_Armor -= Dmg;
+		//		Dmg = 0;
+		//	}
+		//}
 
-		m_Health -= Dmg;
+		//m_Health -= Dmg;
 	}
 
 	// create healthmod indicator

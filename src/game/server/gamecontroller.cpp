@@ -264,8 +264,8 @@ void IGameController::OnCharacterSpawn(CCharacter *pChr)
 		pChr->IncreaseHealth(10);
 
 		// give default weapons
-		pChr->GiveWeapon(WEAPON_HAMMER, -1);
-		pChr->GiveWeapon(WEAPON_GUN, 10);
+		pChr->GiveWeapon(WEAPON_LASER, -1);
+		//pChr->GiveWeapon(WEAPON_GUN, 10);
 	}
 }
 
@@ -295,31 +295,31 @@ bool IGameController::OnEntity(int Index, vec2 Pos)
 	case ENTITY_SPAWN_BLUE:
 		m_aaSpawnPoints[2][m_aNumSpawnPoints[2]++] = Pos;
 		break;
-	case ENTITY_ARMOR_1:
-		Type = PICKUP_ARMOR;
-		break;
-	case ENTITY_HEALTH_1:
-		Type = PICKUP_HEALTH;
-		break;
-	case ENTITY_WEAPON_SHOTGUN:
-		Type = PICKUP_SHOTGUN;
-		break;
-	case ENTITY_WEAPON_GRENADE:
-		Type = PICKUP_GRENADE;
-		break;
-	case ENTITY_WEAPON_LASER:
-		Type = PICKUP_LASER;
-		break;
-	case ENTITY_POWERUP_NINJA:
-		if(g_Config.m_SvPowerups)
-			Type = PICKUP_NINJA;
+	//case ENTITY_ARMOR_1:
+	//	Type = PICKUP_ARMOR;
+	//	break;
+	//case ENTITY_HEALTH_1:
+	//	Type = PICKUP_HEALTH;
+	//	break;
+	//case ENTITY_WEAPON_SHOTGUN:
+	//	Type = PICKUP_SHOTGUN;
+	//	break;
+	//case ENTITY_WEAPON_GRENADE:
+	//	Type = PICKUP_GRENADE;
+	//	break;
+	//case ENTITY_WEAPON_LASER:
+	//	Type = PICKUP_LASER;
+	//	break;
+	//case ENTITY_POWERUP_NINJA:
+	//	if(g_Config.m_SvPowerups)
+	//		Type = PICKUP_NINJA;
 	}
 
-	if(Type != -1)
-	{
-		new CPickup(&GameServer()->m_World, Type, Pos);
-		return true;
-	}
+	//if(Type != -1)
+	//{
+	//	new CPickup(&GameServer()->m_World, Type, Pos);
+	//	return true;
+	//}
 
 	return false;
 }

@@ -481,7 +481,10 @@ void CCharacter::SetEmote(int Emote, int Tick)
 void CCharacter::OnPredictedInput(CNetObj_PlayerInput *pNewInput)
 {
 	if(m_Freeze)
+	{
+		ResetInput();
 		return;
+	}
 	// check for changes
 	if(mem_comp(&m_Input, pNewInput, sizeof(CNetObj_PlayerInput)) != 0)
 		m_LastAction = Server()->Tick();
@@ -498,7 +501,10 @@ void CCharacter::OnPredictedInput(CNetObj_PlayerInput *pNewInput)
 void CCharacter::OnDirectInput(CNetObj_PlayerInput *pNewInput)
 {
 	if(m_Freeze)
+	{
+		ResetInput();
 		return;
+	}
 	mem_copy(&m_LatestPrevInput, &m_LatestInput, sizeof(m_LatestInput));
 	mem_copy(&m_LatestInput, pNewInput, sizeof(m_LatestInput));
 

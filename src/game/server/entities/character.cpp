@@ -672,6 +672,9 @@ void CCharacter::Die(int Killer, int Weapon)
 		GameServer()->CreateDeath(m_Pos, m_pPlayer->GetCID());
 		GameServer()->CreateSound(m_Pos, SOUND_CTF_CAPTURE);
 		m_pPlayer->m_DieTick = Server()->Tick();
+		char aBuf[64];
+        str_format(aBuf, sizeof aBuf, "%s sacrificed (%+d), pleasing the gods", Server()->ClientName(Sacrificer), g_Config.m_SvSacrificeScore);
+		GameServer()->SendBroadcast(aBuf, -1);
 
 		GameServer()->m_World.RemoveEntity(this);
 		GameServer()->m_World.m_Core.m_apCharacters[m_pPlayer->GetCID()] = 0;

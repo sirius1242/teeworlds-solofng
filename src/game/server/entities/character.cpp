@@ -653,6 +653,27 @@ bool CCharacter::IncreaseArmor(int Amount)
 void CCharacter::Die(int Killer, int Weapon)
 {
 	// we got to wait 0.5 secs before respawning
+	if (Weapon == WEAPON_WORLD && m_Freeze)
+	{
+		int Sacrificer = GameServer()->GetPlayerChar(Killer)->m_pTouched;
+		int ModeSpecial = GameServer()->m_pController->OnCharacterDeath(this, GameServer()->m_apPlayers[Sacrificer], WEAPON_NINJA);
+		m_Alive = false;
+		m_pPlayer->m_RespawnTick = Server()->Tick()+Server()->TickSpeed()/2;
+		CNetMsg_Sv_KillMsg Msg;
+		Msg.m_Killer = Sacrificer;
+		Msg.m_Victim = Killer;
+		Msg.m_Weapon = WEAPON_NINJA;
+		Msg.m_ModeSpecial = ModeSpecial;
+		Server()->SendPackMsg(&Msg, MSGFLAG_VITAL, -1);
+		GameServer()->CreateDeath(m_Pos, m_pPlayer->GetCID());
+		GameServer()->CreateSound(m_Pos, SOUND_CTF_CAPTURE);
+		m_pPlayer->m_DieTick = Server()->Tick();
+
+		GameServer()->m_World.RemoveEntity(this);
+		GameServer()->m_World.m_Core.m_apCharacters[m_pPlayer->GetCID()] = 0;
+		GameServer()->CreateDeath(m_Pos, m_pPlayer->GetCID());
+		return;
+	}
 	m_Alive = false;
 	m_pPlayer->m_RespawnTick = Server()->Tick()+Server()->TickSpeed()/2;
 	int ModeSpecial = GameServer()->m_pController->OnCharacterDeath(this, GameServer()->m_apPlayers[Killer], Weapon);
@@ -696,9 +717,8 @@ void CCharacter::Freeze(int Killer, int Weapon)
 		Msg.m_Weapon = Weapon;
 		Msg.m_ModeSpecial = ModeSpecial;
 		Server()->SendPackMsg(&Msg, MSGFLAG_VITAL, -1);
+		GameServer()->CreateDeath(m_Pos, m_pPlayer->GetCID());
 	}
-	GameServer()->CreateSound(m_Pos, SOUND_PLAYER_DIE);
-	GameServer()->CreateDeath(m_Pos, m_pPlayer->GetCID());
 }
 
 bool CCharacter::TakeDamage(vec2 Force, vec2 Source, int Dmg, int From, int Weapon)
@@ -717,6 +737,7 @@ bool CCharacter::TakeDamage(vec2 Force, vec2 Source, int Dmg, int From, int Weap
 	int OldHealth = m_Health, OldArmor = m_Armor;
 	if(Dmg && (Weapon == WEAPON_LASER || (Weapon == WEAPON_HAMMER && g_Config.m_SvSuperHammer)))
 	{
+		m_pTouched = From;
 		Freeze(From, Weapon);
 		//m_Health = 0;
 		//if(m_Armor)
@@ -777,10 +798,10 @@ bool CCharacter::TakeDamage(vec2 Force, vec2 Source, int Dmg, int From, int Weap
 		return false;
 	}
 
-	if (Dmg > 2)
-		GameServer()->CreateSound(m_Pos, SOUND_PLAYER_PAIN_LONG);
-	else
-		GameServer()->CreateSound(m_Pos, SOUND_PLAYER_PAIN_SHORT);
+	//if (Dmg > 2)
+	//	GameServer()->CreateSound(m_Pos, SOUND_PLAYER_PAIN_LONG);
+	//else
+	//	GameServer()->CreateSound(m_Pos, SOUND_PLAYER_PAIN_SHORT);
 
 	m_EmoteType = EMOTE_PAIN;
 	m_EmoteStop = Server()->Tick() + 500 * Server()->TickSpeed() / 1000;

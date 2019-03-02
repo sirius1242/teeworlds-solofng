@@ -42,6 +42,7 @@ public:
 	void FireWeapon();
 
 	void Die(int Killer, int Weapon);
+	void Freeze(int Killer, int Weapon);
 	bool TakeDamage(vec2 Force, vec2 Source, int Dmg, int From, int Weapon);
 
 	bool Spawn(class CPlayer *pPlayer, vec2 Pos);
@@ -63,6 +64,7 @@ private:
 	class CPlayer *m_pPlayer;
 
 	bool m_Alive;
+	bool m_Freeze;
 
 	// weapon info
 	CEntity *m_apHitObjects[10];

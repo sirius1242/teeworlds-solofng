@@ -687,17 +687,18 @@ void CCharacter::Freeze(int Killer, int Weapon)
 	//m_Alive = false;
 	m_Freeze = true;
 	m_pPlayer->GetCharacter()->GiveNinja();
-	//int ModeSpecial = GameServer()->m_pController->OnCharacterDeath(this, GameServer()->m_apPlayers[Killer], Weapon);
+	int ModeSpecial = GameServer()->m_pController->OnCharacterDeath(this, GameServer()->m_apPlayers[Killer], Weapon);
 	if (Weapon == WEAPON_LASER)
 	{
 		CNetMsg_Sv_KillMsg Msg;
 		Msg.m_Killer = Killer;
 		Msg.m_Victim = m_pPlayer->GetCID();
 		Msg.m_Weapon = Weapon;
-		//Msg.m_ModeSpecial = ModeSpecial;
+		Msg.m_ModeSpecial = ModeSpecial;
 		Server()->SendPackMsg(&Msg, MSGFLAG_VITAL, -1);
 	}
 	GameServer()->CreateSound(m_Pos, SOUND_PLAYER_DIE);
+	GameServer()->CreateDeath(m_Pos, m_pPlayer->GetCID());
 }
 
 bool CCharacter::TakeDamage(vec2 Force, vec2 Source, int Dmg, int From, int Weapon)

@@ -216,7 +216,14 @@ int IGameController::OnCharacterDeath(CCharacter *pVictim, CPlayer *pKiller, int
 {
 	// do scoreing
 	if(!pKiller || Weapon == WEAPON_GAME)
+	{
+		//if(pVictim->m_Freeze)
+		//{
+		//	char * pAddr;
+		//	Server()->GetClientAddr(pKiller->GetCID(), pAddr, 64);
+		//}
 		return 0;
+	}
 	if(pKiller == pVictim->GetPlayer())
 		return 0;
 	else if(Weapon == WEAPON_HAMMER)
@@ -224,12 +231,12 @@ int IGameController::OnCharacterDeath(CCharacter *pVictim, CPlayer *pKiller, int
 	else if(Weapon == WEAPON_SACR)
 	{
 		pKiller->m_Score+=g_Config.m_SvSacrificeScore;
-		return 1;
+		return 0;
 	}
 	else if(Weapon == WEAPON_SACR2)
 	{
 		pKiller->m_Score+=(g_Config.m_SvSacrificeScore+1)/2;
-		return 1;
+		return 0;
 	}
 	else
 	{
@@ -239,7 +246,9 @@ int IGameController::OnCharacterDeath(CCharacter *pVictim, CPlayer *pKiller, int
 			pKiller->m_Score++; // normal kill
 	}
 	if(Weapon == WEAPON_SELF)
+	{
 		pVictim->GetPlayer()->m_RespawnTick = Server()->Tick()+Server()->TickSpeed()*3.0f;
+	}
 
 
 	// update spectator modes for dead players in survival

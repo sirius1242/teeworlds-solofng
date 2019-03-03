@@ -681,8 +681,10 @@ bool CCharacter::IncreaseArmor(int Amount)
 	return true;
 }
 
-void CCharacter::Die(int Killer, int Weapon)
+int CCharacter::Die(int Killer, int Weapon)
 {
+	if(Weapon == WEAPON_SELF && m_Freeze)
+		return 0;
 	char aBuf[256];
 	// we got to wait 0.5 secs before respawning
 	if ((Weapon == WEAPON_SACR || Weapon == WEAPON_SACR2) && m_Freeze)
@@ -722,11 +724,11 @@ void CCharacter::Die(int Killer, int Weapon)
 		GameServer()->m_World.RemoveEntity(this);
 		GameServer()->m_World.m_Core.m_apCharacters[m_pPlayer->GetCID()] = 0;
 		GameServer()->CreateDeath(m_Pos, m_pPlayer->GetCID());
-		return;
+		return 1;
 	}
+	int ModeSpecial = GameServer()->m_pController->OnCharacterDeath(this, GameServer()->m_apPlayers[Killer], Weapon);
 	m_Alive = false;
 	m_pPlayer->m_RespawnTick = Server()->Tick()+Server()->TickSpeed()/2;
-	int ModeSpecial = GameServer()->m_pController->OnCharacterDeath(this, GameServer()->m_apPlayers[Killer], Weapon);
 
 	str_format(aBuf, sizeof(aBuf), "kill killer='%d:%s' victim='%d:%s' weapon=%d special=%d",
 		Killer, Server()->ClientName(Killer),
@@ -738,6 +740,8 @@ void CCharacter::Die(int Killer, int Weapon)
 	Msg.m_Killer = Killer;
 	Msg.m_Victim = m_pPlayer->GetCID();
 	Msg.m_Weapon = Weapon;
+	if(Weapon == WEAPON_SACR || Weapon == WEAPON_SACR2)
+		Msg.m_Weapon = WEAPON_WORLD;
 	Msg.m_ModeSpecial = ModeSpecial;
 	Server()->SendPackMsg(&Msg, MSGFLAG_VITAL, -1);
 
@@ -750,6 +754,7 @@ void CCharacter::Die(int Killer, int Weapon)
 	GameServer()->m_World.RemoveEntity(this);
 	GameServer()->m_World.m_Core.m_apCharacters[m_pPlayer->GetCID()] = 0;
 	GameServer()->CreateDeath(m_Pos, m_pPlayer->GetCID());
+	return 1;
 }
 
 void CCharacter::Freeze(int Killer, int Weapon)

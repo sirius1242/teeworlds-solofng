@@ -963,7 +963,8 @@ void CGameContext::OnMessage(int MsgID, CUnpacker *pUnpacker, int ClientID)
 				return;
 
 			pPlayer->m_LastKill = Server()->Tick();
-			pPlayer->KillCharacter(WEAPON_SELF);
+			if(!pPlayer->KillCharacter(WEAPON_SELF))
+				SendChat(-1, CHAT_WHISPER, pPlayer->GetCID(), "You can't suicide when being frozen!");
 		}
 		else if (MsgID == NETMSGTYPE_CL_READYCHANGE)
 		{

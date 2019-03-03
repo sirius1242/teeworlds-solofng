@@ -1,5 +1,6 @@
 /* (c) Magnus Auvinen. See licence.txt in the root of the distribution for more information. */
 /* If you are missing that file, acquire a complete release at teeworlds.com.                */
+#include <iostream>
 #include <engine/shared/config.h>
 
 #include <generated/server_data.h>
@@ -533,6 +534,22 @@ void CCharacter::ResetInput()
 	m_LatestPrevInput = m_LatestInput = m_Input;
 }
 
+bool CCharacter::OnTile(int flag)
+{
+	if(GameServer()->Collision()->GetCollisionAt(m_Pos.x+GetProximityRadius()/3.f, m_Pos.y-GetProximityRadius()/3.f) == flag ||
+		GameServer()->Collision()->GetCollisionAt(m_Pos.x+GetProximityRadius()/3.f, m_Pos.y+GetProximityRadius()/3.f) == flag ||
+		GameServer()->Collision()->GetCollisionAt(m_Pos.x-GetProximityRadius()/3.f, m_Pos.y-GetProximityRadius()/3.f) == flag ||
+		GameServer()->Collision()->GetCollisionAt(m_Pos.x-GetProximityRadius()/3.f, m_Pos.y+GetProximityRadius()/3.f) == flag ||
+		GameLayerClipped(m_Pos))
+	{
+		//if(flag == 9 || flag == 8)
+		//	std::cout<<"sacrificed"<<std::endl;
+		return true;
+	}
+	else
+		return false;
+}
+
 void CCharacter::Tick()
 {
 	m_Core.m_Input = m_Input;
@@ -542,14 +559,19 @@ void CCharacter::Tick()
 	int hooked = -1;
 	if((hooked = m_Core.m_HookedPlayer) != -1)
 		GameServer()->GetPlayerChar(hooked)->m_pTouched = m_pPlayer->GetCID();
-	if(GameServer()->Collision()->GetCollisionAt(m_Pos.x+GetProximityRadius()/3.f, m_Pos.y-GetProximityRadius()/3.f)&CCollision::COLFLAG_DEATH ||
-		GameServer()->Collision()->GetCollisionAt(m_Pos.x+GetProximityRadius()/3.f, m_Pos.y+GetProximityRadius()/3.f)&CCollision::COLFLAG_DEATH ||
-		GameServer()->Collision()->GetCollisionAt(m_Pos.x-GetProximityRadius()/3.f, m_Pos.y-GetProximityRadius()/3.f)&CCollision::COLFLAG_DEATH ||
-		GameServer()->Collision()->GetCollisionAt(m_Pos.x-GetProximityRadius()/3.f, m_Pos.y+GetProximityRadius()/3.f)&CCollision::COLFLAG_DEATH ||
-		GameLayerClipped(m_Pos))
-	{
+	if(OnTile(TILE_DEATH))
 		Die(m_pPlayer->GetCID(), WEAPON_WORLD);
-	}
+	if(OnTile(TILE_SACR))
+		Die(m_pPlayer->GetCID(), WEAPON_SACR);
+	if(OnTile(TILE_SACR2))
+		Die(m_pPlayer->GetCID(), WEAPON_SACR2);
+	//if(GameServer()->Collision()->GetCollisionAt(m_Pos.x, m_Pos.y) == TILE_DEATH)
+	//	Die(m_pPlayer->GetCID(), WEAPON_WORLD);
+	//if(GameServer()->Collision()->GetCollisionAt(m_Pos.x, m_Pos.y) == TILE_SACR)
+	//	Die(m_pPlayer->GetCID(), WEAPON_SACR);
+	//if(GameServer()->Collision()->GetCollisionAt(m_Pos.x, m_Pos.y) == TILE_SACR2)
+	//	Die(m_pPlayer->GetCID(), WEAPON_SACR2);
+	//std::cout<<GameServer()->Collision()->GetCollisionAt(m_Pos.x+GetProximityRadius()/3.f, m_Pos.y-GetProximityRadius()/3.f)<<std::endl;
 	//std::cout<<GameServer()->Collision()->GetCollisionAt(m_Pos.x+GetProximityRadius()/3.f, m_Pos.y-GetProximityRadius()/3.f)<< GameServer()->Collision()->GetCollisionAt(m_Pos.x+GetProximityRadius()/3.f, m_Pos.y-GetProximityRadius()/3.f)<< GameServer()->Collision()->GetCollisionAt(m_Pos.x+GetProximityRadius()/3.f, m_Pos.y-GetProximityRadius()/3.f)<< GameServer()->Collision()->GetCollisionAt(m_Pos.x+GetProximityRadius()/3.f, m_Pos.y-GetProximityRadius()/3.f)<<std::endl;
 
 	// handle Weapons
@@ -662,36 +684,38 @@ bool CCharacter::IncreaseArmor(int Amount)
 
 void CCharacter::Die(int Killer, int Weapon)
 {
+	char aBuf[256];
 	// we got to wait 0.5 secs before respawning
-	if (Weapon == WEAPON_WORLD && m_Freeze)
+	if ((Weapon == WEAPON_SACR || Weapon == WEAPON_SACR2) && m_Freeze)
 	{
 		int Sacrificer = GameServer()->GetPlayerChar(Killer)->m_pTouched;
-		int ModeSpecial = GameServer()->m_pController->OnCharacterDeath(this, GameServer()->m_apPlayers[Sacrificer], WEAPON_NINJA);
+		int ModeSpecial = GameServer()->m_pController->OnCharacterDeath(this, GameServer()->m_apPlayers[Sacrificer], Weapon);
 		m_Alive = false;
 		m_pPlayer->m_RespawnTick = Server()->Tick()+Server()->TickSpeed()/2;
+		str_format(aBuf, sizeof(aBuf), "kill killer='%d:%s' victim='%d:%s' weapon=%d special=%d",
+			Sacrificer, Server()->ClientName(Sacrificer),
+			m_pPlayer->GetCID(), Server()->ClientName(m_pPlayer->GetCID()), Weapon, ModeSpecial);
+		GameServer()->Console()->Print(IConsole::OUTPUT_LEVEL_DEBUG, "game", aBuf);
 		CNetMsg_Sv_KillMsg Msg;
 		Msg.m_Killer = Sacrificer;
 		Msg.m_Victim = Killer;
 		Msg.m_Weapon = WEAPON_NINJA;
 		Msg.m_ModeSpecial = ModeSpecial;
 		Server()->SendPackMsg(&Msg, MSGFLAG_VITAL, -1);
-		GameServer()->CreateDeath(m_Pos, m_pPlayer->GetCID());
-		GameServer()->CreateSound(m_Pos, SOUND_CTF_CAPTURE);
 		m_pPlayer->m_DieTick = Server()->Tick();
-		char aBuf[64];
         str_format(aBuf, sizeof aBuf, "%s sacrificed (%+d), pleasing the gods", Server()->ClientName(Sacrificer), g_Config.m_SvSacrificeScore);
 		GameServer()->SendBroadcast(aBuf, -1);
 
 		GameServer()->m_World.RemoveEntity(this);
 		GameServer()->m_World.m_Core.m_apCharacters[m_pPlayer->GetCID()] = 0;
 		GameServer()->CreateDeath(m_Pos, m_pPlayer->GetCID());
+		GameServer()->CreateSound(m_Pos, SOUND_CTF_CAPTURE);
 		return;
 	}
 	m_Alive = false;
 	m_pPlayer->m_RespawnTick = Server()->Tick()+Server()->TickSpeed()/2;
 	int ModeSpecial = GameServer()->m_pController->OnCharacterDeath(this, GameServer()->m_apPlayers[Killer], Weapon);
 
-	char aBuf[256];
 	str_format(aBuf, sizeof(aBuf), "kill killer='%d:%s' victim='%d:%s' weapon=%d special=%d",
 		Killer, Server()->ClientName(Killer),
 		m_pPlayer->GetCID(), Server()->ClientName(m_pPlayer->GetCID()), Weapon, ModeSpecial);

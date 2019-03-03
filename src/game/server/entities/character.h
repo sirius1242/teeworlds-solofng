@@ -59,6 +59,7 @@ public:
 	bool IsAlive() const { return m_Alive; }
 	class CPlayer *GetPlayer() { return m_pPlayer; }
 	int m_pTouched;
+	bool OnTile(int flag);
 
 private:
 	// player controlling this character

@@ -1,5 +1,6 @@
 /* (c) Magnus Auvinen. See licence.txt in the root of the distribution for more information. */
 /* If you are missing that file, acquire a complete release at teeworlds.com.                */
+#include <iostream>
 #include <base/system.h>
 #include <base/math.h>
 #include <base/vmath.h>
@@ -45,17 +46,25 @@ void CCollision::Init(class CLayers *pLayers)
 		case TILE_NOHOOK:
 			m_pTiles[i].m_Index = COLFLAG_SOLID|COLFLAG_NOHOOK;
 			break;
+		case TILE_SACR:
+		case TILE_SACR2:
+			break;
 		default:
 			m_pTiles[i].m_Index = 0;
 		}
 	}
+	//for(int i = 0; i < m_Width*m_Height; i++)
+	//{
+	//	std::cout<<(int)m_pTiles[i].m_Index<<std::endl;
+	//}
 }
 
 int CCollision::GetTile(int x, int y) const
 {
 	int Nx = clamp(x/32, 0, m_Width-1);
 	int Ny = clamp(y/32, 0, m_Height-1);
-
+	//if (m_pTiles[Ny*m_Width+Nx].m_Index == 9)
+	//	std::cout<<(int)m_pTiles[Ny*m_Width+Nx].m_Index <<std::endl;
 	return m_pTiles[Ny*m_Width+Nx].m_Index > 128 ? 0 : m_pTiles[Ny*m_Width+Nx].m_Index;
 }
 

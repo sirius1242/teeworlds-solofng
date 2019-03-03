@@ -562,14 +562,6 @@ void CCharacter::Tick()
 		Die(m_pPlayer->GetCID(), WEAPON_SACR);
 	if(OnTile(TILE_SACR2))
 		Die(m_pPlayer->GetCID(), WEAPON_SACR2);
-	//if(GameServer()->Collision()->GetCollisionAt(m_Pos.x, m_Pos.y) == TILE_DEATH)
-	//	Die(m_pPlayer->GetCID(), WEAPON_WORLD);
-	//if(GameServer()->Collision()->GetCollisionAt(m_Pos.x, m_Pos.y) == TILE_SACR)
-	//	Die(m_pPlayer->GetCID(), WEAPON_SACR);
-	//if(GameServer()->Collision()->GetCollisionAt(m_Pos.x, m_Pos.y) == TILE_SACR2)
-	//	Die(m_pPlayer->GetCID(), WEAPON_SACR2);
-	//std::cout<<GameServer()->Collision()->GetCollisionAt(m_Pos.x+GetProximityRadius()/3.f, m_Pos.y-GetProximityRadius()/3.f)<<std::endl;
-	//std::cout<<GameServer()->Collision()->GetCollisionAt(m_Pos.x+GetProximityRadius()/3.f, m_Pos.y-GetProximityRadius()/3.f)<< GameServer()->Collision()->GetCollisionAt(m_Pos.x+GetProximityRadius()/3.f, m_Pos.y-GetProximityRadius()/3.f)<< GameServer()->Collision()->GetCollisionAt(m_Pos.x+GetProximityRadius()/3.f, m_Pos.y-GetProximityRadius()/3.f)<< GameServer()->Collision()->GetCollisionAt(m_Pos.x+GetProximityRadius()/3.f, m_Pos.y-GetProximityRadius()/3.f)<<std::endl;
 
 	// handle Weapons
 	HandleWeapons();

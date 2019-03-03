@@ -143,7 +143,7 @@ class Weapon_Ninja(Struct):
 	def __init__(self):
 		Struct.__init__(self, "CDataWeaponspecNinja")
 		self.base = Pointer(WeaponSpec, WeaponSpec())
-		self.duration = Int(15000)
+		self.duration = Int(10000)
 		self.movetime = Int(200)
 		self.velocity = Int(50)
 

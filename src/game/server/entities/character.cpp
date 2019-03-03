@@ -708,6 +708,14 @@ void CCharacter::Die(int Killer, int Weapon)
 			str_format(aBuf, sizeof aBuf, "%s sacrificed (%+d), pleasing the gods", Server()->ClientName(Sacrificer), (g_Config.m_SvSacrificeScore+1)/2);
 		GameServer()->SendBroadcast(aBuf, -1);
 
+		// set sacrificer's face to happy (taunt!)
+		CCharacter * pChr = GameServer()->GetPlayerChar(Sacrificer);
+		if (pChr)
+		{
+			pChr->m_EmoteType = EMOTE_HAPPY;
+			pChr->m_EmoteStop = Server()->Tick() + Server() -> TickSpeed();
+		}
+
 		GameServer()->CreateSound(m_Pos, SOUND_CTF_CAPTURE);
 		m_pPlayer->m_DieTick = Server()->Tick();
 

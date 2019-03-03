@@ -541,8 +541,6 @@ bool CCharacter::OnTile(int flag)
 		GameServer()->Collision()->GetCollisionAt(m_Pos.x-GetProximityRadius()/3.f, m_Pos.y+GetProximityRadius()/3.f) == flag ||
 		GameLayerClipped(m_Pos))
 	{
-		//if(flag == 10 || flag == 8)
-		//	std::cout<<"sacrificed"<<std::endl;
 		return true;
 	}
 	else
@@ -681,6 +679,24 @@ bool CCharacter::IncreaseArmor(int Amount)
 	return true;
 }
 
+//void CCharacter::DoRagequit()
+//{
+//	if(!*m_pAddr)
+//		return;
+//	if(m_Freeze)
+//	{
+//		NETADDR Addr;
+//		Server()->GetClientAddr(m_pPlayer->GetCID(), m_pAddr, NETADDR_MAXSTRSIZE);
+//		if(net_addr_from_str(&Addr, m_pAddr) == 0)
+//		{
+//			char aBan[128];
+//			str_format(aBan, sizeof aBan, "ban %s 1 Forcefully left the server while being frozen.", m_pAddr);
+//			GameServer()->Console()->ExecuteLine(aBan);
+//		}
+//		*m_pAddr = '\0';
+//	}
+//}
+
 int CCharacter::Die(int Killer, int Weapon)
 {
 	if(Weapon == WEAPON_SELF && m_Freeze)
@@ -745,6 +761,19 @@ int CCharacter::Die(int Killer, int Weapon)
 	Msg.m_ModeSpecial = ModeSpecial;
 	Server()->SendPackMsg(&Msg, MSGFLAG_VITAL, -1);
 
+	//if(Weapon == WEAPON_GAME && m_Freeze)
+	//{
+	//	char pAddr[128];
+	//	NETADDR Addr;
+	//	Server()->GetClientAddr(Killer, pAddr, NETADDR_MAXSTRSIZE);
+	//	if(net_addr_from_str(&Addr, pAddr) == 0)
+	//	{
+	//		char aBan[128];
+	//		str_format(aBan, sizeof aBan, "ban %s 1 Forcefully left the server while being frozen.", pAddr);
+	//		GameServer()->Console()->ExecuteLine(aBan);
+	//	}
+	//	*pAddr = '\0';
+	//}
 	// a nice sound
 	GameServer()->CreateSound(m_Pos, SOUND_PLAYER_DIE);
 

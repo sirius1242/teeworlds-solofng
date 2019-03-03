@@ -105,6 +105,7 @@ protected:
 	void EndMatch() { SetGameState(IGS_END_MATCH, TIMER_END); }
 	void EndRound() { SetGameState(IGS_END_ROUND, TIMER_END/2); }
 
+	char m_RagequitAddr[128];
 	// info
 	int m_GameFlags;
 	const char *m_pGameType;

@@ -29,6 +29,7 @@ public:
 
 	bool IsGrounded();
 
+	void DoRagequit();
 	void SetWeapon(int W);
 	void HandleWeaponSwitch();
 	void DoWeaponSwitch();
@@ -57,6 +58,7 @@ public:
 	void SetEmote(int Emote, int Tick);
 
 	bool IsAlive() const { return m_Alive; }
+	bool IsFreeze() { return m_Freeze; }
 	class CPlayer *GetPlayer() { return m_pPlayer; }
 	int m_pTouched;
 	bool OnTile(int flag);

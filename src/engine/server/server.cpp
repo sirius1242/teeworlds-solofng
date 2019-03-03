@@ -410,7 +410,6 @@ void CServer::GetClientAddr(int ClientID, char *pAddrStr, int Size) const
 		net_addr_str(m_NetServer.ClientAddr(ClientID), pAddrStr, Size, false);
 }
 
-
 const char *CServer::ClientName(int ClientID) const
 {
 	if(ClientID < 0 || ClientID >= MAX_CLIENTS || m_aClients[ClientID].m_State == CServer::CClient::STATE_EMPTY)

@@ -217,11 +217,10 @@ int IGameController::OnCharacterDeath(CCharacter *pVictim, CPlayer *pKiller, int
 	// do scoreing
 	if(!pKiller || Weapon == WEAPON_GAME)
 	{
-		//if(pVictim->m_Freeze)
-		//{
-		//	char * pAddr;
-		//	Server()->GetClientAddr(pKiller->GetCID(), pAddr, 64);
-		//}
+		if(pVictim->IsFreeze())
+		{
+			Server()->GetClientAddr(pKiller->GetCID(), m_RagequitAddr, NETADDR_MAXSTRSIZE);
+		}
 		return 0;
 	}
 	if(pKiller == pVictim->GetPlayer())
@@ -807,6 +806,21 @@ void IGameController::Tick()
 				break;
  			}
 		}
+	}
+	
+	// handle rage quit
+	if (*m_RagequitAddr)
+	{
+		NETADDR Addr;
+		if (net_addr_from_str(&Addr, m_RagequitAddr) == 0)
+		{
+			Addr.port = 0;
+			char aBan[128];
+			str_format(aBan, sizeof aBan, "ban %s 1 Forcefully left the server while being frozen.", m_RagequitAddr);
+			GameServer()->Console()->ExecuteLine(aBan);
+		}
+
+		*m_RagequitAddr = '\0';
 	}
 
 	// do team-balancing (skip this in survival, done there when a round starts)

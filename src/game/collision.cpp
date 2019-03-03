@@ -52,18 +52,12 @@ void CCollision::Init(class CLayers *pLayers)
 			m_pTiles[i].m_Index = 0;
 		}
 	}
-	//for(int i = 0; i < m_Width*m_Height; i++)
-	//{
-	//	std::cout<<(int)m_pTiles[i].m_Index<<std::endl;
-	//}
 }
 
 int CCollision::GetTile(int x, int y) const
 {
 	int Nx = clamp(x/32, 0, m_Width-1);
 	int Ny = clamp(y/32, 0, m_Height-1);
-	//if (m_pTiles[Ny*m_Width+Nx].m_Index == 9)
-	//	std::cout<<(int)m_pTiles[Ny*m_Width+Nx].m_Index <<std::endl;
 	return m_pTiles[Ny*m_Width+Nx].m_Index > 128 ? 0 : m_pTiles[Ny*m_Width+Nx].m_Index;
 }
 

@@ -387,7 +387,7 @@ void CGameContext::SendVoteStatus(int ClientID, int Total, int Yes, int No)
 void CGameContext::AbortVoteOnDisconnect(int ClientID)
 {
 	if(m_VoteCloseTime && ClientID == m_VoteClientID && (!str_comp_num(m_aVoteCommand, "kick ", 5) ||
-		!str_comp_num(m_aVoteCommand, "set_team ", 9) || (!str_comp_num(m_aVoteCommand, "ban ", 4) && Server()->IsBanned(ClientID))))
+		!str_comp_num(m_aVoteCommand, "set_team ", 9) || (!str_comp_num(m_aVoteCommand, "an ", 4) && Server()->IsBanned(ClientID))))
 		m_VoteCloseTime = -1;
 }
 
@@ -699,6 +699,7 @@ void CGameContext::OnClientDrop(int ClientID, const char *pReason)
 	}
 
 	delete m_apPlayers[ClientID];
+
 	m_apPlayers[ClientID] = 0;
 
 	m_VoteUpdate = true;

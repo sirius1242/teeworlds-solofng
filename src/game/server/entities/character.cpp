@@ -1,6 +1,5 @@
 /* (c) Magnus Auvinen. See licence.txt in the root of the distribution for more information. */
 /* If you are missing that file, acquire a complete release at teeworlds.com.                */
-#include <iostream>
 #include <engine/shared/config.h>
 
 #include <generated/server_data.h>
@@ -542,7 +541,7 @@ bool CCharacter::OnTile(int flag)
 		GameServer()->Collision()->GetCollisionAt(m_Pos.x-GetProximityRadius()/3.f, m_Pos.y+GetProximityRadius()/3.f) == flag ||
 		GameLayerClipped(m_Pos))
 	{
-		//if(flag == 9 || flag == 8)
+		//if(flag == 10 || flag == 8)
 		//	std::cout<<"sacrificed"<<std::endl;
 		return true;
 	}
@@ -688,6 +687,7 @@ void CCharacter::Die(int Killer, int Weapon)
 	// we got to wait 0.5 secs before respawning
 	if ((Weapon == WEAPON_SACR || Weapon == WEAPON_SACR2) && m_Freeze)
 	{
+		//std::cout<<Weapon<<std::endl;
 		int Sacrificer = GameServer()->GetPlayerChar(Killer)->m_pTouched;
 		int ModeSpecial = GameServer()->m_pController->OnCharacterDeath(this, GameServer()->m_apPlayers[Sacrificer], Weapon);
 		m_Alive = false;
@@ -702,14 +702,18 @@ void CCharacter::Die(int Killer, int Weapon)
 		Msg.m_Weapon = WEAPON_NINJA;
 		Msg.m_ModeSpecial = ModeSpecial;
 		Server()->SendPackMsg(&Msg, MSGFLAG_VITAL, -1);
-		m_pPlayer->m_DieTick = Server()->Tick();
-        str_format(aBuf, sizeof aBuf, "%s sacrificed (%+d), pleasing the gods", Server()->ClientName(Sacrificer), g_Config.m_SvSacrificeScore);
+		if (Weapon == WEAPON_SACR)
+			str_format(aBuf, sizeof aBuf, "%s sacrificed (%+d), pleasing the gods", Server()->ClientName(Sacrificer), g_Config.m_SvSacrificeScore);
+		else
+			str_format(aBuf, sizeof aBuf, "%s sacrificed (%+d), pleasing the gods", Server()->ClientName(Sacrificer), (g_Config.m_SvSacrificeScore+1)/2);
 		GameServer()->SendBroadcast(aBuf, -1);
+
+		GameServer()->CreateSound(m_Pos, SOUND_CTF_CAPTURE);
+		m_pPlayer->m_DieTick = Server()->Tick();
 
 		GameServer()->m_World.RemoveEntity(this);
 		GameServer()->m_World.m_Core.m_apCharacters[m_pPlayer->GetCID()] = 0;
 		GameServer()->CreateDeath(m_Pos, m_pPlayer->GetCID());
-		GameServer()->CreateSound(m_Pos, SOUND_CTF_CAPTURE);
 		return;
 	}
 	m_Alive = false;

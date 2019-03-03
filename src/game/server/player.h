@@ -11,8 +11,8 @@ enum
 	WEAPON_GAME = -3, // team switching etc
 	WEAPON_SELF = -2, // console kill command
 	WEAPON_WORLD = -1, // death tiles etc
-	WEAPON_SACR,
-	WEAPON_SACR2,
+	WEAPON_SACR = -4,
+	WEAPON_SACR2 = -5,
 };
 
 // player object

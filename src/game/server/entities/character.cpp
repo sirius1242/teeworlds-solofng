@@ -782,6 +782,10 @@ void CCharacter::Freeze(int Killer, int Weapon)
 {
 	//m_Alive = false;
 	m_Freeze = true;
+	if (Weapon == WEAPON_HAMMER)
+		g_pData->m_Weapons.m_Ninja.m_Duration = 5000;
+	else
+		g_pData->m_Weapons.m_Ninja.m_Duration = 10000;
 	m_pPlayer->GetCharacter()->GiveNinja();
 	int ModeSpecial = GameServer()->m_pController->OnCharacterDeath(this, GameServer()->m_apPlayers[Killer], Weapon);
 	if (Weapon == WEAPON_LASER)

@@ -132,6 +132,7 @@ MACRO_CONFIG_INT(SvVoteKickBantime, sv_vote_kick_bantime, 5, 0, 1440, CFGFLAG_SA
 // fng variables
 MACRO_CONFIG_INT(SvSuperHammer, sv_superhammer, 1, 0, 1, CFGFLAG_SAVE|CFGFLAG_SERVER, "Allow hammer to freeze, 0 to disable")
 MACRO_CONFIG_INT(SvSacrificeScore, sv_sacrificescore, 5, 0, 15, CFGFLAG_SAVE|CFGFLAG_SERVER, "Score get when sacrificed")
+MACRO_CONFIG_INT(SvFreezeThrough, sv_freezethrough, 1, 0, 1, CFGFLAG_SAVE|CFGFLAG_SERVER, "Laser through freeze player (0 to disable)")
 
 // debug
 #ifdef CONF_DEBUG // this one can crash the server if not used correctly

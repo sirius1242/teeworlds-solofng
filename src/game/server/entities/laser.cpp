@@ -1,5 +1,6 @@
 /* (c) Magnus Auvinen. See licence.txt in the root of the distribution for more information. */
 /* If you are missing that file, acquire a complete release at teeworlds.com.                */
+#include <engine/shared/config.h>
 #include <generated/server_data.h>
 #include <game/server/gamecontext.h>
 
@@ -24,8 +25,15 @@ bool CLaser::HitCharacter(vec2 From, vec2 To)
 	vec2 At;
 	CCharacter *pOwnerChar = GameServer()->GetPlayerChar(m_Owner);
 	CCharacter *pHit = GameServer()->m_World.IntersectCharacter(m_Pos, To, 0.f, At, pOwnerChar);
-	if(!pHit)
+	if(!pHit) 
 		return false;
+	if(g_Config.m_SvFreezeThrough)
+		while(pHit->IsFreeze())
+		{
+			pHit = GameServer()->m_World.IntersectCharacter(At, To, 0.f, At, pHit);
+			if(!pHit) 
+				return false;
+		}
 
 	m_From = From;
 	m_Pos = At;

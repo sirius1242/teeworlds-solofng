@@ -1,3 +1,18 @@
+## Solofng mod based on teeworlds 0.7.2
+
+#### Commands:
+- `sv_superhammer`: Allow hammer to freeze, 0 to disable
+- `sv_sacrificescore`: Set score get when sacrificed
+- `sv_freezethrough`: Laser through freeze player (0 to disable)
+
+#### Sacrifice shrine
+
+Because this is solofng, so there's no difference between red shrine and blue shrine, and they are all tile of number 10 when editing maps; shrine_all is tile of number 8, the same as 0.6.
+
+### usage
+- download bam 0.5, and use `bam config` and `bam server` to compile
+- Write an autoexec.cfg, and use `build/x86_64/debug/teeworlds_srv` to execute the server
+
 Teeworlds [![CircleCI](https://circleci.com/gh/teeworlds/teeworlds.svg?style=svg)](https://circleci.com/gh/teeworlds/teeworlds)
 =========
 

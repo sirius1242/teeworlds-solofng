@@ -134,6 +134,12 @@ MACRO_CONFIG_INT(SvSuperHammer, sv_superhammer, 1, 0, 1, CFGFLAG_SAVE|CFGFLAG_SE
 MACRO_CONFIG_INT(SvSacrificeScore, sv_sacrificescore, 5, 0, 15, CFGFLAG_SAVE|CFGFLAG_SERVER, "Score get when sacrificed")
 MACRO_CONFIG_INT(SvFreezeThrough, sv_freezethrough, 1, 0, 1, CFGFLAG_SAVE|CFGFLAG_SERVER, "Laser through freeze player (0 to disable)")
 
+//Anticamp
+MACRO_CONFIG_INT(SvAnticamper, sv_anticamper, 2, 0, 2, CFGFLAG_SERVER, "0 disables, 1 enables anticamper in all modes and 2 only in Instagib")
+MACRO_CONFIG_INT(SvAnticamperFreeze, sv_anticamper_freeze, 7, 0, 15, CFGFLAG_SERVER, "If a player should freeze on camping (and how long) or die")
+MACRO_CONFIG_INT(SvAnticamperTime, sv_anticamper_time, 10, 5, 120, CFGFLAG_SERVER, "How long to wait till the player dies/freezes")
+MACRO_CONFIG_INT(SvAnticamperRange, sv_anticamper_range, 200, 0, 1000, CFGFLAG_SERVER, "Distance how far away the player must move to escape anticamper")
+
 // debug
 #ifdef CONF_DEBUG // this one can crash the server if not used correctly
 	MACRO_CONFIG_INT(DbgDummies, dbg_dummies, 0, 0, MAX_CLIENTS-1, CFGFLAG_SERVER, "")

@@ -60,6 +60,7 @@ public:
 	bool m_DeadSpecMode;
 	bool DeadCanFollow(CPlayer *pPlayer) const;
 	void UpdateDeadSpecMode();
+	int Anticamper();
 
 	bool m_IsReadyToEnter;
 	bool m_IsReadyToPlay;
@@ -132,6 +133,11 @@ private:
 	int m_SpectatorID;
 	class CFlag *m_pSpecFlag;
 	bool m_ActiveSpecSwitch;
+
+	// about anticamping
+	int m_CampTick;
+	bool m_SentCampMsg;
+	vec2 m_CampPos;
 };
 
 #endif

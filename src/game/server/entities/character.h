@@ -59,6 +59,7 @@ public:
 
 	bool IsAlive() const { return m_Alive; }
 	bool IsFreeze() { return m_Freeze; }
+	vec2 GetPos() {return m_Core.m_Pos; }
 	class CPlayer *GetPlayer() { return m_pPlayer; }
 	int m_pTouched;
 	bool OnTile(int flag);

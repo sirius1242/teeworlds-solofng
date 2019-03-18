@@ -4,6 +4,8 @@
 - `sv_superhammer`: Allow hammer to freeze, 0 to disable
 - `sv_sacrificescore`: Set score get when sacrificed
 - `sv_freezethrough`: Laser through freeze player (0 to disable)
+- `sv_hammer_scale_x`: linearly scale up hammer x power, percentage, for hammering enemies, default is 320
+- `sv_hammer_scale_y`: linearly scale up hammer y power, percentage, for hammering enemies, default is 120
 
 #### Sacrifice shrine
 

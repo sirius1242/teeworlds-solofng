@@ -3,6 +3,7 @@
 #include <engine/shared/config.h>
 #include <generated/server_data.h>
 #include <game/server/gamecontext.h>
+#include <game/server/player.h>
 
 #include "character.h"
 #include "laser.h"
@@ -27,13 +28,12 @@ bool CLaser::HitCharacter(vec2 From, vec2 To)
 	CCharacter *pHit = GameServer()->m_World.IntersectCharacter(m_Pos, To, 0.f, At, pOwnerChar);
 	if(!pHit) 
 		return false;
-	if(g_Config.m_SvFreezeThrough)
-		while(pHit->IsFreeze())
-		{
-			pHit = GameServer()->m_World.IntersectCharacter(At, To, 0.f, At, pHit);
-			if(!pHit) 
-				return false;
-		}
+	while((pHit->IsFreeze()&&g_Config.m_SvFreezeThrough)||((pOwnerChar->GetPlayer()->GetTeam() == pHit->GetPlayer()->GetTeam())&&g_Config.m_SvTeammateThrough))
+	{
+		pHit = GameServer()->m_World.IntersectCharacter(At, To, 0.f, At, pHit);
+		if(!pHit) 
+			return false;
+	}
 
 	m_From = From;
 	m_Pos = At;

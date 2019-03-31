@@ -139,7 +139,7 @@ MACRO_CONFIG_INT(SvPunishWrongSacr, svpunish_wrongsacr, 5, 0, 30, CFGFLAG_SERVER
 
 MACRO_CONFIG_INT(SvHammerMelt, sv_hammermelt, 3, 0, 60, CFGFLAG_SERVER, "how many ticks to subtract from freezetime, when hammering frozen teammates")
 MACRO_CONFIG_INT(SvMeltScore, sv_meltscore, 1, 0, 10, CFGFLAG_SERVER, "player score for melting")
-MACRO_CONFIG_INT(SvSacrTeammatePunsh, sv_sacrteammate_punish, 1, 0, 10, CFGFLAG_SERVER, "Score decrease when sacrifice player in same team.")
+MACRO_CONFIG_INT(SvSacrTeammatePunish, sv_sacrteammate_punish, 1, 0, 10, CFGFLAG_SERVER, "Score decrease when sacrifice player in same team.")
 
 //Anticamp
 MACRO_CONFIG_INT(SvAnticamper, sv_anticamper, 2, 0, 2, CFGFLAG_SERVER, "0 disables, 1 enables anticamper in all modes and 2 only in Instagib")

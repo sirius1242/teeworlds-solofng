@@ -1,7 +1,11 @@
 /* (c) Magnus Auvinen. See licence.txt in the root of the distribution for more information. */
 /* If you are missing that file, acquire a complete release at teeworlds.com.                */
-#include "solofng.h"
+#include <engine/shared/config.h>
+#include <game/server/entities/character.h>
+#include <game/server/gamecontext.h>
+#include <game/server/player.h>
 
+#include "solofng.h"
 
 CGameControllerSolofng::CGameControllerSolofng(CGameContext *pGameServer)
 : IGameController(pGameServer)
@@ -23,7 +27,6 @@ int CGameControllerSolofng::OnCharacterDeath(class CCharacter *pVictim, class CP
 	else if(Weapon == WEAPON_SACR_ALL)
 	{
 		pKiller->m_Score+=(g_Config.m_SvSacrificeScore+1)/2;
-		return 0;
 		str_format(aBuf, sizeof aBuf, "%s sacrificed (%+d), pleasing the gods", Server()->ClientName(pKiller->GetCID()), (g_Config.m_SvSacrificeScore+1)/2);
 		GameServer()->SendBroadcast(aBuf, -1);
 	}

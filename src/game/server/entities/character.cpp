@@ -788,6 +788,8 @@ void CCharacter::Freeze(int Killer, int Weapon)
 		g_pData->m_Weapons.m_Ninja.m_Duration = 5000;
 	else if (Weapon == WEAPON_GAME)
 		g_pData->m_Weapons.m_Ninja.m_Duration = g_Config.m_SvAnticamperFreeze * 1000;
+	else if (Weapon == WEAPON_NINJA)
+		g_pData->m_Weapons.m_Ninja.m_Duration = g_Config.m_SvPunishWrongSacr * 1000;
 	else
 		g_pData->m_Weapons.m_Ninja.m_Duration = 10000;
 	m_pPlayer->GetCharacter()->GiveNinja();

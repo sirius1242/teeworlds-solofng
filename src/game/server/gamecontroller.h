@@ -3,12 +3,7 @@
 #ifndef GAME_SERVER_GAMECONTROLLER_H
 #define GAME_SERVER_GAMECONTROLLER_H
 
-#include <engine/shared/config.h>
-
 #include <base/vmath.h>
-#include "entities/character.h"
-#include "gamecontext.h"
-#include "player.h"
 
 #include <generated/protocol.h>
 

@@ -134,7 +134,7 @@ MACRO_CONFIG_INT(SvSuperHammer, sv_superhammer, 1, 0, 1, CFGFLAG_SAVE|CFGFLAG_SE
 MACRO_CONFIG_INT(SvSacrificeScore, sv_sacrificescore, 5, 0, 15, CFGFLAG_SAVE|CFGFLAG_SERVER, "Score get when sacrificed")
 MACRO_CONFIG_INT(SvWrongSacrScore, sv_wrong_sacr_score, 5, 0, 10, CFGFLAG_SERVER, "player decrease score for sacrificing in wrong shrine")
 MACRO_CONFIG_INT(SvFreezeThrough, sv_freezethrough, 1, 0, 1, CFGFLAG_SAVE|CFGFLAG_SERVER, "Laser through freeze player (0 to disable)")
-MACRO_CONFIG_INT(SvPunishWrongSacr, sv_punish_wrong_sacr, 1, 0, 1, CFGFLAG_SERVER, "whether freeze who is sacrificing in a wrong-colored shrine. (0 to disable)")
+MACRO_CONFIG_INT(SvPunishWrongSacr, sv_punish_wrong_sacr, 5, 0, 30, CFGFLAG_SERVER, "Time to freeze who is sacrificing in a wrong-colored shrine. (0 to disable)")
 
 //Anticamp
 MACRO_CONFIG_INT(SvAnticamper, sv_anticamper, 2, 0, 2, CFGFLAG_SERVER, "0 disables, 1 enables anticamper in all modes and 2 only in Instagib")

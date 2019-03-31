@@ -24,6 +24,30 @@ int CGameControllerTDM::OnCharacterDeath(class CCharacter *pVictim, class CPlaye
 		// do team scoring
 		if(pKiller == pVictim->GetPlayer() || pKiller->GetTeam() == pVictim->GetPlayer()->GetTeam())
 			m_aTeamscore[pKiller->GetTeam()&1]--; // klant arschel
+		else if(Weapon == WEAPON_SACR_ALL)
+			m_aTeamscore[pKiller->GetTeam()&1]+=g_Config.m_SvSacrificeScore;
+		else if(Weapon == WEAPON_SACR_RED)
+		{
+			if (pKiller->GetTeam() == TEAM_RED)
+				m_aTeamscore[pKiller->GetTeam()&1]+=g_Config.m_SvSacrificeScore*2;
+			if (pKiller->GetTeam() == TEAM_BLUE)
+			{
+				m_aTeamscore[pKiller->GetTeam()&1]-=(g_Config.m_SvWrongSacrScore+1)/2;
+				if (g_Config.m_SvPunishWrongSacr)
+					pKiller->GetCharacter()->Freeze(pKiller->GetCID(), pKiller->GetCID());
+			}
+		}
+		else if(Weapon == WEAPON_SACR_BLUE)
+		{
+			if (pKiller->GetTeam() == TEAM_BLUE)
+				m_aTeamscore[pKiller->GetTeam()&1]+=g_Config.m_SvSacrificeScore*2;
+			if (pKiller->GetTeam() == TEAM_RED)
+			{
+				m_aTeamscore[pKiller->GetTeam()&1]-=(g_Config.m_SvWrongSacrScore+1)/2;
+				if (g_Config.m_SvPunishWrongSacr)
+					pKiller->GetCharacter()->Freeze(pKiller->GetCID(), pKiller->GetCID());
+			}
+		}
 		else
 			m_aTeamscore[pKiller->GetTeam()&1]++; // good shit
 	}

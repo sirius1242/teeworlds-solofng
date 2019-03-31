@@ -8,6 +8,9 @@ class CGameControllerSolofng : public IGameController
 {
 public:
 	CGameControllerSolofng(class CGameContext *pGameServer);
+
+	// event
+	virtual int OnCharacterDeath(class CCharacter *pVictim, class CPlayer *pKiller, int Weapon);
 };
 
 #endif

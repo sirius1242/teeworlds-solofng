@@ -1,14 +1,9 @@
 /* (c) Magnus Auvinen. See licence.txt in the root of the distribution for more information. */
 /* If you are missing that file, acquire a complete release at teeworlds.com.                */
-#include <engine/shared/config.h>
-
 #include <game/mapitems.h>
 
-#include "entities/character.h"
 #include "entities/pickup.h"
-#include "gamecontext.h"
 #include "gamecontroller.h"
-#include "player.h"
 
 
 IGameController::IGameController(CGameContext *pGameServer)
@@ -227,16 +222,8 @@ int IGameController::OnCharacterDeath(CCharacter *pVictim, CPlayer *pKiller, int
 		return 0;
 	else if(Weapon == WEAPON_HAMMER)
 		return 0;
-	else if(Weapon == WEAPON_SACR_RED || Weapon == WEAPON_SACR_BLUE)
-	{
-		pKiller->m_Score+=g_Config.m_SvSacrificeScore;
+	else if(Weapon == WEAPON_SACR_ALL || Weapon == WEAPON_SACR_BLUE || Weapon == WEAPON_SACR_RED)
 		return 0;
-	}
-	else if(Weapon == WEAPON_SACR_ALL)
-	{
-		pKiller->m_Score+=(g_Config.m_SvSacrificeScore+1)/2;
-		return 0;
-	}
 	else
 	{
 		if(IsTeamplay() && pVictim->GetPlayer()->GetTeam() == pKiller->GetTeam())

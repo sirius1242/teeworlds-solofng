@@ -728,19 +728,6 @@ int CCharacter::Die(int Killer, int Weapon)
 		Msg.m_Weapon = WEAPON_NINJA;
 		Msg.m_ModeSpecial = ModeSpecial;
 		Server()->SendPackMsg(&Msg, MSGFLAG_VITAL, -1);
-		if (Weapon == WEAPON_SACR_RED || Weapon == WEAPON_SACR_BLUE)
-			str_format(aBuf, sizeof aBuf, "%s sacrificed (%+d), pleasing the gods", Server()->ClientName(Sacrificer), g_Config.m_SvSacrificeScore);
-		else
-			str_format(aBuf, sizeof aBuf, "%s sacrificed (%+d), pleasing the gods", Server()->ClientName(Sacrificer), (g_Config.m_SvSacrificeScore+1)/2);
-		GameServer()->SendBroadcast(aBuf, -1);
-
-		// set sacrificer's face to happy (taunt!)
-		CCharacter * pChr = GameServer()->GetPlayerChar(Sacrificer);
-		if (pChr)
-		{
-			pChr->m_EmoteType = EMOTE_HAPPY;
-			pChr->m_EmoteStop = Server()->Tick() + Server() -> TickSpeed();
-		}
 
 		GameServer()->CreateSound(m_Pos, SOUND_CTF_CAPTURE);
 		m_pPlayer->m_DieTick = Server()->Tick();

@@ -9,7 +9,7 @@
 
 #### Sacrifice shrine
 
-Because this is solofng, so there's no difference between red shrine and blue shrine, and they are all tile of number 10 when editing maps; shrine_all is tile of number 8, the same as 0.6.
+shrine_red is tile of number 10, shrine_blue is tile of number 12 when editing maps; shrine_all is tile of number 8, the same as 0.6.
 
 ### usage
 - download bam 0.5, and use `bam config` and `bam server` to compile

@@ -13,6 +13,7 @@
 
 #include "entities/character.h"
 #include "gamemodes/solofng.h"
+#include "gamemodes/tdm.h"
 #include "gamemodes/mod.h"
 #include "gamecontext.h"
 #include "player.h"
@@ -1436,8 +1437,8 @@ void CGameContext::OnInit()
 	//	m_pController = new CGameControllerLMS(this);
 	//else if(str_comp_nocase(g_Config.m_SvGametype, "lts") == 0)
 	//	m_pController = new CGameControllerLTS(this);
-	//else if(str_comp_nocase(g_Config.m_SvGametype, "tdm") == 0)
-	//	m_pController = new CGameControllerTDM(this);
+	else if(str_comp_nocase(g_Config.m_SvGametype, "tdm") == 0)
+		m_pController = new CGameControllerTDM(this);
 	else
 		m_pController = new CGameControllerSolofng(this);
 

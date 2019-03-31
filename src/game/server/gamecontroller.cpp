@@ -227,12 +227,12 @@ int IGameController::OnCharacterDeath(CCharacter *pVictim, CPlayer *pKiller, int
 		return 0;
 	else if(Weapon == WEAPON_HAMMER)
 		return 0;
-	else if(Weapon == WEAPON_SACR)
+	else if(Weapon == WEAPON_SACR_RED || Weapon == WEAPON_SACR_BLUE)
 	{
 		pKiller->m_Score+=g_Config.m_SvSacrificeScore;
 		return 0;
 	}
-	else if(Weapon == WEAPON_SACR2)
+	else if(Weapon == WEAPON_SACR_ALL)
 	{
 		pKiller->m_Score+=(g_Config.m_SvSacrificeScore+1)/2;
 		return 0;

@@ -572,10 +572,12 @@ void CCharacter::Tick()
 		GameServer()->GetPlayerChar(hooked)->m_pTouched = m_pPlayer->GetCID();
 	if(OnTile(TILE_DEATH))
 		Die(m_pPlayer->GetCID(), WEAPON_WORLD);
-	if(OnTile(TILE_SACR))
-		Die(m_pPlayer->GetCID(), WEAPON_SACR);
-	if(OnTile(TILE_SACR2))
-		Die(m_pPlayer->GetCID(), WEAPON_SACR2);
+	if(OnTile(TILE_SACR_RED))
+		Die(m_pPlayer->GetCID(), WEAPON_SACR_RED);
+	if(OnTile(TILE_SACR_BLUE))
+		Die(m_pPlayer->GetCID(), WEAPON_SACR_BLUE);
+	if(OnTile(TILE_SACR_ALL))
+		Die(m_pPlayer->GetCID(), WEAPON_SACR_ALL);
 
 	// handle Weapons
 	HandleWeapons();
@@ -709,7 +711,7 @@ int CCharacter::Die(int Killer, int Weapon)
 		return 0;
 	char aBuf[256];
 	// we got to wait 0.5 secs before respawning
-	if ((Weapon == WEAPON_SACR || Weapon == WEAPON_SACR2) && m_Freeze)
+	if ((Weapon == WEAPON_SACR_RED || Weapon == WEAPON_SACR_ALL || Weapon == WEAPON_SACR_BLUE) && m_Freeze)
 	{
 		//std::cout<<Weapon<<std::endl;
 		int Sacrificer = GameServer()->GetPlayerChar(Killer)->m_pTouched;
@@ -726,7 +728,7 @@ int CCharacter::Die(int Killer, int Weapon)
 		Msg.m_Weapon = WEAPON_NINJA;
 		Msg.m_ModeSpecial = ModeSpecial;
 		Server()->SendPackMsg(&Msg, MSGFLAG_VITAL, -1);
-		if (Weapon == WEAPON_SACR)
+		if (Weapon == WEAPON_SACR_RED || Weapon == WEAPON_SACR_BLUE)
 			str_format(aBuf, sizeof aBuf, "%s sacrificed (%+d), pleasing the gods", Server()->ClientName(Sacrificer), g_Config.m_SvSacrificeScore);
 		else
 			str_format(aBuf, sizeof aBuf, "%s sacrificed (%+d), pleasing the gods", Server()->ClientName(Sacrificer), (g_Config.m_SvSacrificeScore+1)/2);
@@ -762,7 +764,7 @@ int CCharacter::Die(int Killer, int Weapon)
 	Msg.m_Killer = Killer;
 	Msg.m_Victim = m_pPlayer->GetCID();
 	Msg.m_Weapon = Weapon;
-	if(Weapon == WEAPON_SACR || Weapon == WEAPON_SACR2)
+	if(Weapon == WEAPON_SACR_BLUE || Weapon == WEAPON_SACR_RED || Weapon == WEAPON_SACR_ALL)
 		Msg.m_Weapon = WEAPON_WORLD;
 	Msg.m_ModeSpecial = ModeSpecial;
 	Server()->SendPackMsg(&Msg, MSGFLAG_VITAL, -1);

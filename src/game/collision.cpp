@@ -45,8 +45,9 @@ void CCollision::Init(class CLayers *pLayers)
 		case TILE_NOHOOK:
 			m_pTiles[i].m_Index = COLFLAG_SOLID|COLFLAG_NOHOOK;
 			break;
-		case TILE_SACR:
-		case TILE_SACR2:
+		case TILE_SACR_RED:
+		case TILE_SACR_BLUE:
+		case TILE_SACR_ALL:
 			break;
 		default:
 			m_pTiles[i].m_Index = 0;

@@ -131,10 +131,15 @@ MACRO_CONFIG_INT(SvVoteKickBantime, sv_vote_kick_bantime, 5, 0, 1440, CFGFLAG_SA
 
 // fng variables
 MACRO_CONFIG_INT(SvSuperHammer, sv_superhammer, 1, 0, 1, CFGFLAG_SAVE|CFGFLAG_SERVER, "Allow hammer to freeze, 0 to disable")
-MACRO_CONFIG_INT(SvSacrificeScore, sv_sacrificescore, 5, 0, 15, CFGFLAG_SAVE|CFGFLAG_SERVER, "Score get when sacrificed")
-MACRO_CONFIG_INT(SvWrongSacrScore, sv_wrong_sacr_score, 5, 0, 10, CFGFLAG_SERVER, "player decrease score for sacrificing in wrong shrine")
+MACRO_CONFIG_INT(SvSacrificeScore, sv_sacrscore, 5, 0, 15, CFGFLAG_SAVE|CFGFLAG_SERVER, "Score get when sacrificed")
+MACRO_CONFIG_INT(SvWrongSacrScore, sv_wrongsacrscore, 5, 0, 10, CFGFLAG_SERVER, "player decrease score for sacrificing in wrong shrine")
 MACRO_CONFIG_INT(SvFreezeThrough, sv_freezethrough, 1, 0, 1, CFGFLAG_SAVE|CFGFLAG_SERVER, "Laser through freeze player (0 to disable)")
-MACRO_CONFIG_INT(SvPunishWrongSacr, sv_punish_wrong_sacr, 5, 0, 30, CFGFLAG_SERVER, "Time to freeze who is sacrificing in a wrong-colored shrine. (0 to disable)")
+MACRO_CONFIG_INT(SvTeammateThrough, sv_teammatethrough, 1, 0, 1, CFGFLAG_SAVE|CFGFLAG_SERVER, "Laser through player in same team (0 to disable)")
+MACRO_CONFIG_INT(SvPunishWrongSacr, svpunish_wrongsacr, 5, 0, 30, CFGFLAG_SERVER, "Time to freeze who is sacrificing in a wrong-colored shrine. (0 to disable)")
+
+MACRO_CONFIG_INT(SvHammerMelt, sv_hammermelt, 3, 0, 60, CFGFLAG_SERVER, "how many ticks to subtract from freezetime, when hammering frozen teammates")
+MACRO_CONFIG_INT(SvMeltScore, sv_meltscore, 1, 0, 10, CFGFLAG_SERVER, "player score for melting")
+MACRO_CONFIG_INT(SvSacrTeammatePunsh, sv_sacrteammate_punish, 1, 0, 10, CFGFLAG_SERVER, "Score decrease when sacrifice player in same team.")
 
 //Anticamp
 MACRO_CONFIG_INT(SvAnticamper, sv_anticamper, 2, 0, 2, CFGFLAG_SERVER, "0 disables, 1 enables anticamper in all modes and 2 only in Instagib")
@@ -145,6 +150,8 @@ MACRO_CONFIG_INT(SvAnticamperRange, sv_anticamper_range, 200, 0, 1000, CFGFLAG_S
 // hammer scale
 MACRO_CONFIG_INT(SvHammerScaleX, sv_hammer_scale_x, 320, 1, 1000, CFGFLAG_SERVER, "linearly scale up hammer x power, percentage, for hammering enemies and unfrozen teammates")
 MACRO_CONFIG_INT(SvHammerScaleY, sv_hammer_scale_y, 120, 1, 1000, CFGFLAG_SERVER, "linearly scale up hammer y power, percentage, for hammering enemies and unfrozen teammates")
+MACRO_CONFIG_INT(SvMeltHammerScaleX, sv_melt_hammer_scale_x, 50, 1, 1000, CFGFLAG_SERVER, "linearly scale up hammer x power, percentage, for hammering frozen teammates")
+MACRO_CONFIG_INT(SvMeltHammerScaleY, sv_melt_hammer_scale_y, 50, 1, 1000, CFGFLAG_SERVER, "linearly scale up hammer y power, percentage, for hammering frozen teammates")
 
 // debug
 #ifdef CONF_DEBUG // this one can crash the server if not used correctly

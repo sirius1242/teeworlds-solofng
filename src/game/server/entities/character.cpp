@@ -118,7 +118,7 @@ void CCharacter::HandleNinja()
 	if(m_ActiveWeapon != WEAPON_NINJA)
 		return;
 
-	if ((Server()->Tick() - m_Ninja.m_ActivationTick) > (g_pData->m_Weapons.m_Ninja.m_Duration * Server()->TickSpeed() / 1000))
+	if (Server()->Tick() >= m_FreezeTick)
 	{
 		// time's up, return
 		m_Freeze = false;
@@ -320,23 +320,26 @@ void CCharacter::FireWeapon()
 				else
 					Dir = vec2(0.f, -1.f);
 
-				//bool MeltHit = pTarget->GetPlayer()->GetTeam() == GetPlayer()->GetTeam() && pTarget->GetFreezeTicks() > 0;
+				bool MeltHit = GameServer()->m_pController->IsTeamplay() && pTarget->GetPlayer()->GetTeam() == GetPlayer()->GetTeam() && pTarget->IsFreeze();
 
 				vec2 Force = (vec2(0.f, -1.f) + normalize(Dir + vec2(0.f, -1.1f)) * 10.0f);
-				//if (!MeltHit)
-				//{
-				Force.x *= g_Config.m_SvHammerScaleX*0.01f;
-				Force.y *= g_Config.m_SvHammerScaleY*0.01f;
-				//}
-				//else
-				//{
-				//	Force.x *= g_Config.m_SvMeltHammerScaleX*0.01f;
-				//	Force.y *= g_Config.m_SvMeltHammerScaleY*0.01f;
-				//}
+				if (!MeltHit)
+				{
+					Force.x *= g_Config.m_SvHammerScaleX*0.01f;
+					Force.y *= g_Config.m_SvHammerScaleY*0.01f;
+				}
+				else
+				{
+					Force.x *= g_Config.m_SvMeltHammerScaleX*0.01f;
+					Force.y *= g_Config.m_SvMeltHammerScaleY*0.01f;
+				}
 
 				pTarget->TakeDamage(Force, Dir*-1, g_pData->m_Weapons.m_Hammer.m_pBase->m_Damage,
 					m_pPlayer->GetCID(), m_ActiveWeapon);
 				Hits++;
+
+				if (MeltHit)
+					pTarget->Freeze(m_pPlayer->GetCID(), WEAPON_MELT);
 			}
 
 			// if we Hit anything, we have to wait for the reload
@@ -785,13 +788,19 @@ void CCharacter::Freeze(int Killer, int Weapon)
 {
 	//m_Alive = false;
 	if (Weapon == WEAPON_HAMMER)
-		g_pData->m_Weapons.m_Ninja.m_Duration = 5000;
+		m_FreezeTick = Server()->Tick() + Server()->TickSpeed() * 5;
 	else if (Weapon == WEAPON_GAME)
-		g_pData->m_Weapons.m_Ninja.m_Duration = g_Config.m_SvAnticamperFreeze * 1000;
+		m_FreezeTick = Server()->Tick() + g_Config.m_SvAnticamperFreeze * Server()->TickSpeed();
 	else if (Weapon == WEAPON_NINJA)
-		g_pData->m_Weapons.m_Ninja.m_Duration = g_Config.m_SvPunishWrongSacr * 1000;
+		m_FreezeTick = Server()->Tick() + g_Config.m_SvPunishWrongSacr * Server()->TickSpeed();
+	else if (Weapon == WEAPON_MELT)
+	{
+		m_FreezeTick -= g_Config.m_SvHammerMelt * Server()->TickSpeed();
+		if (m_FreezeTick < Server()->Tick())
+			GameServer()->GetPlayerChar(Killer)->GetPlayer()->m_Score += g_Config.m_SvMeltScore;
+	}
 	else
-		g_pData->m_Weapons.m_Ninja.m_Duration = 10000;
+		m_FreezeTick = Server()->Tick() + Server()->TickSpeed() * 10;
 	m_pPlayer->GetCharacter()->GiveNinja();
 	int ModeSpecial = GameServer()->m_pController->OnCharacterDeath(this, GameServer()->m_apPlayers[Killer], Weapon);
 	m_Freeze = true;

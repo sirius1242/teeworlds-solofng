@@ -24,7 +24,7 @@ int CGameControllerTDM::OnCharacterDeath(class CCharacter *pVictim, class CPlaye
 		// do team scoring
 		CCharacter * pChr = pKiller->GetCharacter();
 		if(pKiller == pVictim->GetPlayer() || pKiller->GetTeam() == pVictim->GetPlayer()->GetTeam())
-			m_aTeamscore[pKiller->GetTeam()&1]--; // klant arschel
+			m_aTeamscore[pKiller->GetTeam()&1]-=g_Config.m_SvSacrTeammatePunish; // klant arschel
 		else if(Weapon == WEAPON_SACR_ALL)
 		{
 			m_aTeamscore[pKiller->GetTeam()&1]+=g_Config.m_SvSacrificeScore;
@@ -32,6 +32,7 @@ int CGameControllerTDM::OnCharacterDeath(class CCharacter *pVictim, class CPlaye
 			str_format(aBuf, sizeof aBuf, "%s team sacrificed (%+d), pleasing the gods", (pKiller->GetTeam() == TEAM_RED)?"Red":"Blue", g_Config.m_SvSacrificeScore);
 			if (pChr)
 				pChr->SetEmote(EMOTE_HAPPY, Server()->Tick() + Server()->TickSpeed());
+			GameServer()->SendBroadcast(aBuf, -1);
 		}
 		else if((Weapon == WEAPON_SACR_RED && pKiller->GetTeam() == TEAM_RED)||(Weapon == WEAPON_SACR_BLUE && pKiller->GetTeam() == TEAM_BLUE))
 		{
@@ -40,20 +41,21 @@ int CGameControllerTDM::OnCharacterDeath(class CCharacter *pVictim, class CPlaye
 			str_format(aBuf, sizeof aBuf, "%s team sacrificed (%+d), pleasing the gods", (pKiller->GetTeam() == TEAM_RED)?"Red":"Blue", g_Config.m_SvSacrificeScore*2);
 			if (pChr)
 				pChr->SetEmote(EMOTE_HAPPY, Server()->Tick() + Server()->TickSpeed());
+			GameServer()->SendBroadcast(aBuf, -1);
 		}
 		else if((Weapon == WEAPON_SACR_RED && pKiller->GetTeam() == TEAM_BLUE)||(Weapon == WEAPON_SACR_BLUE && pKiller->GetTeam() == TEAM_RED))
 		{
 			m_aTeamscore[pKiller->GetTeam()&1]-=(g_Config.m_SvWrongSacrScore+1)/2;
 			pKiller->m_Score-=g_Config.m_SvWrongSacrScore;
-			str_format(aBuf, sizeof aBuf, "%s sacrificed in the wrong shrine (-%d)", Server()->ClientName(pKiller->GetCID()), (g_Config.m_SvSacrificeScore+1)/2);
+			str_format(aBuf, sizeof aBuf, "%s sacrificed in the wrong shrine (-%d)", Server()->ClientName(pKiller->GetCID()), g_Config.m_SvSacrificeScore/2);
 			if (g_Config.m_SvPunishWrongSacr)
 				pKiller->GetCharacter()->Freeze(pKiller->GetCID(), WEAPON_NINJA);
 			if (pChr)
 				pChr->SetEmote(EMOTE_PAIN, Server()->Tick() + Server()->TickSpeed());
+			GameServer()->SendBroadcast(aBuf, -1);
 		}
 		else
 			m_aTeamscore[pKiller->GetTeam()&1]++; // good shit
-		GameServer()->SendBroadcast(aBuf, -1);
 	}
 
 	pVictim->GetPlayer()->m_RespawnTick = max(pVictim->GetPlayer()->m_RespawnTick, Server()->Tick()+Server()->TickSpeed()*g_Config.m_SvRespawnDelayTDM);

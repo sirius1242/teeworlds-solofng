@@ -70,6 +70,7 @@ private:
 
 	bool m_Alive;
 	bool m_Freeze;
+	int m_FreezeTick;
 
 	// weapon info
 	CEntity *m_apHitObjects[10];

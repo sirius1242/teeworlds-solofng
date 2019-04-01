@@ -4,6 +4,7 @@
 #define GAME_SERVER_ENTITIES_LASER_H
 
 #include <game/server/entity.h>
+#include <game/server/gamecontroller.h>
 
 class CLaser : public CEntity
 {

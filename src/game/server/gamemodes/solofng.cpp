@@ -7,13 +7,13 @@
 
 #include "solofng.h"
 
-CGameControllerSolofng::CGameControllerSolofng(CGameContext *pGameServer)
+CGameControllerSoloFNG::CGameControllerSoloFNG(CGameContext *pGameServer)
 : IGameController(pGameServer)
 {
 	m_pGameType = "solofng";
 }
 
-int CGameControllerSolofng::OnCharacterDeath(class CCharacter *pVictim, class CPlayer *pKiller, int Weapon)
+int CGameControllerSoloFNG::OnCharacterDeath(class CCharacter *pVictim, class CPlayer *pKiller, int Weapon)
 {
 	IGameController::OnCharacterDeath(pVictim, pKiller, Weapon);
 

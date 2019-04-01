@@ -4,10 +4,10 @@
 #define GAME_SERVER_GAMEMODES_DM_H
 #include <game/server/gamecontroller.h>
 
-class CGameControllerSolofng : public IGameController
+class CGameControllerSoloFNG : public IGameController
 {
 public:
-	CGameControllerSolofng(class CGameContext *pGameServer);
+	CGameControllerSoloFNG(class CGameContext *pGameServer);
 
 	// event
 	virtual int OnCharacterDeath(class CCharacter *pVictim, class CPlayer *pKiller, int Weapon);

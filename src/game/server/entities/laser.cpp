@@ -28,7 +28,7 @@ bool CLaser::HitCharacter(vec2 From, vec2 To)
 	CCharacter *pHit = GameServer()->m_World.IntersectCharacter(m_Pos, To, 0.f, At, pOwnerChar);
 	if(!pHit) 
 		return false;
-	while((pHit->IsFreeze()&&g_Config.m_SvFreezeThrough)||((pOwnerChar->GetPlayer()->GetTeam() == pHit->GetPlayer()->GetTeam())&&g_Config.m_SvTeammateThrough))
+	while((pHit->IsFreeze()&&g_Config.m_SvFreezeThrough)||(GameServer()->m_pController->IsTeamplay()&&(pOwnerChar->GetPlayer()->GetTeam() == pHit->GetPlayer()->GetTeam())&&g_Config.m_SvTeammateThrough))
 	{
 		pHit = GameServer()->m_World.IntersectCharacter(At, To, 0.f, At, pHit);
 		if(!pHit) 

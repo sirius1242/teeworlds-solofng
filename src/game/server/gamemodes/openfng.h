@@ -4,10 +4,10 @@
 #define GAME_SERVER_GAMEMODES_TDM_H
 #include <game/server/gamecontroller.h>
 
-class CGameControllerTDM : public IGameController
+class CGameControllerOpenFNG : public IGameController
 {
 public:
-	CGameControllerTDM(class CGameContext *pGameServer);
+	CGameControllerOpenFNG(class CGameContext *pGameServer);
 
 	// event
 	virtual int OnCharacterDeath(class CCharacter *pVictim, class CPlayer *pKiller, int Weapon);

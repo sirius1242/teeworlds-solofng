@@ -798,24 +798,24 @@ void CCharacter::Freeze(int Killer, int Weapon)
 	}
 	else if (Weapon == WEAPON_GAME)
 	{
-		g_pData->m_Weapons.m_Ninja.m_Duration = g_Config.m_SvAnticamperFreeze * Server()->TickSpeed();
+		g_pData->m_Weapons.m_Ninja.m_Duration = g_Config.m_SvAnticamperFreeze * 1000;
 		m_FreezeTick = Server()->Tick() + g_Config.m_SvAnticamperFreeze * Server()->TickSpeed();
 	}
 	else if (Weapon == WEAPON_NINJA)
 	{
-		g_pData->m_Weapons.m_Ninja.m_Duration = g_Config.m_SvPunishWrongSacr * Server()->TickSpeed();
+		g_pData->m_Weapons.m_Ninja.m_Duration = g_Config.m_SvPunishWrongSacr * 1000;
 		m_FreezeTick = Server()->Tick() + g_Config.m_SvPunishWrongSacr * Server()->TickSpeed();
 	}
 	else if (Weapon == WEAPON_MELT)
 	{
-		g_pData->m_Weapons.m_Ninja.m_Duration = g_Config.m_SvHammerMelt * Server()->TickSpeed();
+		g_pData->m_Weapons.m_Ninja.m_Duration = g_Config.m_SvHammerMelt * 1000;
 		m_FreezeTick -= g_Config.m_SvHammerMelt * Server()->TickSpeed();
 		if (m_FreezeTick < Server()->Tick())
 			GameServer()->GetPlayerChar(Killer)->GetPlayer()->m_Score += g_Config.m_SvMeltScore;
 	}
 	else
 	{
-		g_pData->m_Weapons.m_Ninja.m_Duration = 10 * Server()->TickSpeed();
+		g_pData->m_Weapons.m_Ninja.m_Duration = 10000;
 		m_FreezeTick = Server()->Tick() + Server()->TickSpeed() * 10;
 	}
 	m_pPlayer->GetCharacter()->GiveNinja();

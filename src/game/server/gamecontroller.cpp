@@ -214,7 +214,7 @@ void IGameController::DoTeamBalance()
 // event
 int IGameController::OnCharacterDeath(CCharacter *pVictim, CPlayer *pKiller, int Weapon)
 {
-	// do scoreing
+	// check ragequit
 	if(!pKiller || Weapon == WEAPON_GAME)
 	{
 		if(pVictim->IsFreeze())
@@ -223,9 +223,10 @@ int IGameController::OnCharacterDeath(CCharacter *pVictim, CPlayer *pKiller, int
 		}
 		return 0;
 	}
+	// do scoreing
 	if(pKiller == pVictim->GetPlayer())
 		return 0;
-	else if(Weapon == WEAPON_HAMMER)
+	else if(Weapon == WEAPON_HAMMER || Weapon == WEAPON_NINJA)
 		return 0;
 	else if(Weapon == WEAPON_SACR_ALL || Weapon == WEAPON_SACR_BLUE || Weapon == WEAPON_SACR_RED)
 		return 0;

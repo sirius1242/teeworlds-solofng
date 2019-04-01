@@ -583,10 +583,10 @@ void CCharacter::Tick()
 		Die(m_pPlayer->GetCID(), WEAPON_SACR_ALL);
 
 	// handle Weapons
-	if (m_FreezeTick > Server()->Tick())
-		if ((m_FreezeTick - Server()->Tick())%Server()->TickSpeed() == 0)
-			GameServer()->CreateDamage(m_Core.m_Pos, m_pPlayer->GetCID(), vec2(0.f, -1.f)*-1, 
-			floorf((m_FreezeTick - Server()->Tick())/Server()->TickSpeed()), 0, true);
+	//if (m_FreezeTick > Server()->Tick())
+	//	if ((m_FreezeTick - Server()->Tick())%Server()->TickSpeed() == 0)
+	//		GameServer()->CreateDamage(m_Core.m_Pos, m_pPlayer->GetCID(), vec2(0.f, -1.f)*-1, 
+	//		floorf((m_FreezeTick - Server()->Tick())/Server()->TickSpeed()), 0, true);
 	HandleWeapons();
 }
 

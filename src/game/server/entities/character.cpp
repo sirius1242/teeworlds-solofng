@@ -500,6 +500,7 @@ void CCharacter::OnPredictedInput(CNetObj_PlayerInput *pNewInput)
 	if(m_Freeze)
 	{
 		ResetInput();
+		m_Input.m_Fire = pNewInput->m_Fire;
 		return;
 	}
 	// check for changes

@@ -14,7 +14,7 @@ enum
 	WEAPON_SACR_RED = -4,
 	WEAPON_SACR_ALL = -5,
 	WEAPON_SACR_BLUE = -6,
-	WEAPON_MELT,
+	WEAPON_MELT=-7,
 };
 
 // player object

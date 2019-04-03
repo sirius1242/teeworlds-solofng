@@ -62,3 +62,9 @@ int CGameControllerOpenFNG::OnCharacterDeath(class CCharacter *pVictim, class CP
 
 	return 0;
 }
+
+void CGameControllerOpenFNG::OnCharacterSpawn(class CCharacter *pChr)
+{
+	IGameController::OnCharacterSpawn(pChr);
+	pChr->GiveWeapon(WEAPON_LASER, -1);
+}

@@ -59,7 +59,12 @@ bool CCharacter::Spawn(CPlayer *pPlayer, vec2 Pos)
 	m_EmoteStop = -1;
 	m_LastAction = -1;
 	m_LastNoAmmoSound = -1;
-	m_ActiveWeapon = WEAPON_LASER;
+	if((str_comp_nocase(g_Config.m_SvGametype, "openfng") == 0)||(str_comp_nocase(g_Config.m_SvGametype, "solofng") == 0))
+		m_ActiveWeapon = WEAPON_LASER;
+	else if((str_comp_nocase(g_Config.m_SvGametype, "bolofng") == 0)||(str_comp_nocase(g_Config.m_SvGametype, "boomfng") == 0))
+		m_ActiveWeapon = WEAPON_GRENADE;
+	else
+		m_ActiveWeapon = WEAPON_HAMMER;
 	m_QueuedWeapon = -1;
 
 	m_pPlayer = pPlayer;
@@ -822,7 +827,7 @@ void CCharacter::Freeze(int Killer, int Weapon)
 	m_pPlayer->GetCharacter()->GiveNinja();
 	int ModeSpecial = GameServer()->m_pController->OnCharacterDeath(this, GameServer()->m_apPlayers[Killer], Weapon);
 	m_Freeze = true;
-	if (Weapon == WEAPON_LASER)
+	if (Weapon == WEAPON_LASER || Weapon == WEAPON_GRENADE)
 	{
 		CNetMsg_Sv_KillMsg Msg;
 		Msg.m_Killer = Killer;
@@ -848,7 +853,7 @@ bool CCharacter::TakeDamage(vec2 Force, vec2 Source, int Dmg, int From, int Weap
 	//	Dmg = max(1, Dmg/2);
 
 	int OldHealth = m_Health, OldArmor = m_Armor;
-	if(Dmg && (Weapon == WEAPON_LASER || (Weapon == WEAPON_HAMMER && g_Config.m_SvSuperHammer)))
+	if(Dmg && (Weapon == WEAPON_LASER || (Weapon == WEAPON_HAMMER && g_Config.m_SvSuperHammer) || (Weapon == WEAPON_GRENADE && From != m_pPlayer->GetCID())))
 	{
 		m_pTouched = From;
 		Freeze(From, Weapon);

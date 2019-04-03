@@ -135,7 +135,7 @@ MACRO_CONFIG_INT(SvSacrificeScore, sv_sacrscore, 5, 0, 15, CFGFLAG_SAVE|CFGFLAG_
 MACRO_CONFIG_INT(SvWrongSacrScore, sv_wrongsacrscore, 5, 0, 10, CFGFLAG_SERVER, "player decrease score for sacrificing in wrong shrine")
 MACRO_CONFIG_INT(SvFreezeThrough, sv_freezethrough, 1, 0, 1, CFGFLAG_SAVE|CFGFLAG_SERVER, "Laser through freeze player (0 to disable)")
 MACRO_CONFIG_INT(SvTeammateThrough, sv_teammatethrough, 1, 0, 1, CFGFLAG_SAVE|CFGFLAG_SERVER, "Laser through player in same team (0 to disable)")
-MACRO_CONFIG_INT(SvPunishWrongSacr, svpunish_wrongsacr, 5, 0, 30, CFGFLAG_SERVER, "Time to freeze who is sacrificing in a wrong-colored shrine. (0 to disable)")
+MACRO_CONFIG_INT(SvPunishWrongSacr, sv_punish_wrongsacr, 5, 0, 30, CFGFLAG_SERVER, "Time to freeze who is sacrificing in a wrong-colored shrine. (0 to disable)")
 
 MACRO_CONFIG_INT(SvHammerMelt, sv_hammermelt, 3, 0, 60, CFGFLAG_SERVER, "how many ticks to subtract from freezetime, when hammering frozen teammates")
 MACRO_CONFIG_INT(SvMeltScore, sv_meltscore, 1, 0, 10, CFGFLAG_SERVER, "player score for melting")

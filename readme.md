@@ -2,10 +2,22 @@
 
 #### Commands:
 - `sv_superhammer`: Allow hammer to freeze, 0 to disable
-- `sv_sacrificescore`: Set score get when sacrificed
+- `sv_sacrscore`: Score get when sacrificed
+- `sv_wrongsacrscore`: player decrease score for sacrificing in wrong shrine
 - `sv_freezethrough`: Laser through freeze player (0 to disable)
-- `sv_hammer_scale_x`: linearly scale up hammer x power, percentage, for hammering enemies, default is 320
-- `sv_hammer_scale_y`: linearly scale up hammer y power, percentage, for hammering enemies, default is 120
+- `sv_teammatethrough`: Laser through player in same team (0 to disable)
+- `sv_punish_wrongsacr`: Time to freeze who is sacrificing in a wrong-colored shrine. (0 to disable)
+- `sv_hammermelt`: how many ticks to subtract from freezetime, when hammering frozen teammates
+- `sv_meltscore`: player score for melting
+- `sv_sacrteammate_punish`: Score decrease when sacrifice player in same team.
+- `sv_anticamper`: 0 disables, 1 enables anticamper in all modes and 2 only in Instagib
+- `sv_anticamper_freeze`: If a player should freeze on camping (and how long) or die
+- `sv_anticamper_time`: How long to wait till the player dies/freezes
+- `sv_anticamper_range`: Distance how far away the player must move to escape anticamper
+- `sv_hammer_scale_x`: linearly scale up hammer x power, percentage, for hammering enemies and unfrozen teammates
+- `sv_hammer_scale_y`: linearly scale up hammer y power, percentage, for hammering enemies and unfrozen teammates
+- `sv_melt_hammer_scale_x`: linearly scale up hammer x power, percentage, for hammering frozen teammates
+- `sv_melt_hammer_scale_y`: linearly scale up hammer y power, percentage, for hammering frozen teammates
 
 #### Sacrifice shrine
 

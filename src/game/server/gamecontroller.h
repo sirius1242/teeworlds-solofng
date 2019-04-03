@@ -165,6 +165,8 @@ public:
 	void OnPlayerInfoChange(class CPlayer *pPlayer);
 	void OnPlayerReadyChange(class CPlayer *pPlayer);
 
+	void OnPlayerScore(class CCharacter *pVictim, class CPlayer *pKiller, int Score, int Teamscore, int Emote);
+
 	void OnReset();
 
 	// game

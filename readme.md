@@ -1,4 +1,6 @@
-## Solofng mod based on teeworlds 0.7.2
+## Fng mod based on teeworlds 0.7.2
+
+gametype: solofng, openfng, bolofng, boomfng
 
 #### Commands:
 - `sv_superhammer`: Allow hammer to freeze, 0 to disable
@@ -18,8 +20,10 @@
 - `sv_hammer_scale_y`: linearly scale up hammer y power, percentage, for hammering enemies and unfrozen teammates
 - `sv_melt_hammer_scale_x`: linearly scale up hammer x power, percentage, for hammering frozen teammates
 - `sv_melt_hammer_scale_y`: linearly scale up hammer y power, percentage, for hammering frozen teammates
-- ` sv_loltext_hspace`: horizontal offset between loltext 'pixels'
-- ` sv_loltext_vspace`: vertical offset between loltext 'pixels'
+- `sv_loltext_hspace`: horizontal offset between loltext 'pixels'
+- `sv_loltext_vspace`: vertical offset between loltext 'pixels'
+- `sv_freezescore`: Score get when freeze others (except hammer)
+- `sv_loltext`: Whether create loltext when score
 
 #### Sacrifice shrine
 

@@ -838,9 +838,9 @@ void CCharacter::Freeze(int Killer, int Weapon)
 		GameServer()->CreateDeath(m_Pos, m_pPlayer->GetCID());
 
 		// loltext
-		char lolt[64];
-		str_format(lolt, sizeof lolt, "%+d", 1);
-		GameServer()->CreateLolText(GameServer()->GetPlayerChar(Killer), false, vec2(0.f, -50.f), vec2(0.f, 0.f), 50, lolt);
+		//char lolt[64];
+		//str_format(lolt, sizeof lolt, "%+d", 1);
+		//GameServer()->CreateLolText(GameServer()->GetPlayerChar(Killer), false, vec2(0.f, -50.f), vec2(0.f, 0.f), 50, lolt);
 	}
 }
 

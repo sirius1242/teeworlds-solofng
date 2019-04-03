@@ -232,15 +232,17 @@ int IGameController::OnCharacterDeath(CCharacter *pVictim, CPlayer *pKiller, int
 		return 0;
 	else
 	{
-		if(IsTeamplay() && pVictim->GetPlayer()->GetTeam() == pKiller->GetTeam())
-			pKiller->m_Score--; // teamkill
-		else
-			pKiller->m_Score++; // normal kill
+		char lolt[64];
+		if(!(IsTeamplay() && pVictim->GetPlayer()->GetTeam() == pKiller->GetTeam()))
+		{
+			pKiller->m_Score+=g_Config.m_SvFreezeScore; // normal kill
+			str_format(lolt, sizeof lolt, "%+d", g_Config.m_SvFreezeScore);
+		}
+		if(g_Config.m_SvLoltext)
+			GameServer()->CreateLolText(pKiller->GetCharacter(), false, vec2(0.f, -50.f), vec2(0.f, 0.f), 50, lolt);
 	}
 	if(Weapon == WEAPON_SELF)
-	{
 		pVictim->GetPlayer()->m_RespawnTick = Server()->Tick()+Server()->TickSpeed()*3.0f;
-	}
 
 
 	// update spectator modes for dead players in survival
@@ -434,6 +436,39 @@ void IGameController::OnReset()
 			GameServer()->m_apPlayers[i]->m_IsReadyToPlay = true;
 		}
 	}
+}
+
+void IGameController::OnPlayerScore(class CCharacter *pVictim, class CPlayer *pKiller, int Score, int Teamscore, int Emote)
+{
+	char aBuf[256];
+	char lolt[64];
+	CCharacter * pChr = pKiller->GetCharacter();
+	pKiller->m_Score+=Score;
+	if(g_Config.m_SvLoltext)
+	{
+		if(Score < 0)
+			str_format(lolt, sizeof lolt, "%d", Score);
+		else
+			str_format(lolt, sizeof lolt, "%+d", Score);
+		GameServer()->CreateLolText(pKiller->GetCharacter(), false, vec2(0.f, -50.f), vec2(0.f, 0.f), 50, lolt);
+	}
+	if(IsTeamplay())
+	{
+		m_aTeamscore[pKiller->GetTeam()&1]+=Teamscore;
+		if(Teamscore < 0)
+		{
+			str_format(aBuf, sizeof aBuf, "%s sacrificed in the wrong shrine (-%d)", Server()->ClientName(pKiller->GetCID()), -Teamscore);
+			if (g_Config.m_SvPunishWrongSacr)
+				pKiller->GetCharacter()->Freeze(pKiller->GetCID(), WEAPON_NINJA);
+		}
+		else if(Teamscore > 0)
+			str_format(aBuf, sizeof aBuf, "%s team sacrificed (%+d), pleasing the gods", (pKiller->GetTeam() == TEAM_RED)?"Red":"Blue", Teamscore);
+	}
+	else
+		str_format(aBuf, sizeof aBuf, "%s sacrificed (%+d), pleasing the gods", Server()->ClientName(pKiller->GetCID()), Score);
+	if (pChr)
+		pChr->SetEmote(Emote, Server()->Tick() + Server()->TickSpeed()); // set killer's emote
+	GameServer()->SendBroadcast(aBuf, -1);
 }
 
 // game

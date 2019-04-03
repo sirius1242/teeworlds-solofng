@@ -18,49 +18,17 @@ int CGameControllerOpenFNG::OnCharacterDeath(class CCharacter *pVictim, class CP
 {
 	IGameController::OnCharacterDeath(pVictim, pKiller, Weapon);
 
-	char aBuf[256];
-	char lolt[64];
 	if(pKiller && Weapon != WEAPON_GAME && Weapon != WEAPON_NINJA && Weapon != WEAPON_MELT)
 	{
 		// do team scoring
-		CCharacter * pChr = pKiller->GetCharacter();
-		if(pKiller->GetTeam() == pVictim->GetPlayer()->GetTeam() && Weapon != WEAPON_NINJA)
-			m_aTeamscore[pKiller->GetTeam()&1]-=g_Config.m_SvSacrTeammatePunish; // klant arschel
+		if(pKiller->GetTeam() == pVictim->GetPlayer()->GetTeam())
+			m_aTeamscore[pKiller->GetTeam()&1]-=g_Config.m_SvSacrTeammatePunish/2; // klant arschel
 		else if(Weapon == WEAPON_SACR_ALL)
-		{
-			m_aTeamscore[pKiller->GetTeam()&1]+=g_Config.m_SvSacrificeScore;
-			pKiller->m_Score+=(g_Config.m_SvSacrificeScore+1)/2;
-			str_format(lolt, sizeof lolt, "%+d", (g_Config.m_SvSacrificeScore+1)/2);
-			GameServer()->CreateLolText(pKiller->GetCharacter(), false, vec2(0.f, -50.f), vec2(0.f, 0.f), 50, lolt);
-			str_format(aBuf, sizeof aBuf, "%s team sacrificed (%+d), pleasing the gods", (pKiller->GetTeam() == TEAM_RED)?"Red":"Blue", g_Config.m_SvSacrificeScore);
-			if (pChr)
-				pChr->SetEmote(EMOTE_HAPPY, Server()->Tick() + Server()->TickSpeed());
-			GameServer()->SendBroadcast(aBuf, -1);
-		}
+			IGameController::OnPlayerScore(pVictim, pKiller, (g_Config.m_SvSacrificeScore+1)/2, g_Config.m_SvSacrificeScore, EMOTE_HAPPY);
 		else if((Weapon == WEAPON_SACR_RED && pKiller->GetTeam() == TEAM_RED)||(Weapon == WEAPON_SACR_BLUE && pKiller->GetTeam() == TEAM_BLUE))
-		{
-			m_aTeamscore[pKiller->GetTeam()&1]+=g_Config.m_SvSacrificeScore*2;
-			pKiller->m_Score+=g_Config.m_SvSacrificeScore;
-			str_format(lolt, sizeof lolt, "%+d", g_Config.m_SvSacrificeScore);
-			GameServer()->CreateLolText(pKiller->GetCharacter(), false, vec2(0.f, -50.f), vec2(0.f, 0.f), 50, lolt);
-			str_format(aBuf, sizeof aBuf, "%s team sacrificed (%+d), pleasing the gods", (pKiller->GetTeam() == TEAM_RED)?"Red":"Blue", g_Config.m_SvSacrificeScore*2);
-			if (pChr)
-				pChr->SetEmote(EMOTE_HAPPY, Server()->Tick() + Server()->TickSpeed());
-			GameServer()->SendBroadcast(aBuf, -1);
-		}
+			IGameController::OnPlayerScore(pVictim, pKiller, g_Config.m_SvSacrificeScore, g_Config.m_SvSacrificeScore*2, EMOTE_HAPPY);
 		else if((Weapon == WEAPON_SACR_RED && pKiller->GetTeam() == TEAM_BLUE)||(Weapon == WEAPON_SACR_BLUE && pKiller->GetTeam() == TEAM_RED))
-		{
-			pKiller->m_Score-=g_Config.m_SvWrongSacrScore;
-			m_aTeamscore[pKiller->GetTeam()&1]-=g_Config.m_SvWrongSacrScore/2;
-			str_format(lolt, sizeof lolt, "-%d", g_Config.m_SvSacrificeScore/2);
-			GameServer()->CreateLolText(pKiller->GetCharacter(), false, vec2(0.f, -50.f), vec2(0.f, 0.f), 50, lolt);
-			str_format(aBuf, sizeof aBuf, "%s sacrificed in the wrong shrine (-%d)", Server()->ClientName(pKiller->GetCID()), g_Config.m_SvSacrificeScore/2);
-			if (g_Config.m_SvPunishWrongSacr)
-				pKiller->GetCharacter()->Freeze(pKiller->GetCID(), WEAPON_NINJA);
-			if (pChr)
-				pChr->SetEmote(EMOTE_PAIN, Server()->Tick() + Server()->TickSpeed());
-			GameServer()->SendBroadcast(aBuf, -1);
-		}
+			IGameController::OnPlayerScore(pVictim, pKiller, -g_Config.m_SvWrongSacrScore, -g_Config.m_SvWrongSacrScore/2, EMOTE_PAIN);
 		else
 			m_aTeamscore[pKiller->GetTeam()&1]++; // good shit
 	}

@@ -131,6 +131,7 @@ MACRO_CONFIG_INT(SvVoteKickBantime, sv_vote_kick_bantime, 5, 0, 1440, CFGFLAG_SA
 
 // fng variables
 MACRO_CONFIG_INT(SvSuperHammer, sv_superhammer, 1, 0, 1, CFGFLAG_SAVE|CFGFLAG_SERVER, "Allow hammer to freeze, 0 to disable")
+MACRO_CONFIG_INT(SvFreezeScore, sv_freezescore, 1, 0, 15, CFGFLAG_SAVE|CFGFLAG_SERVER, "Score get when freeze others (except hammer)")
 MACRO_CONFIG_INT(SvSacrificeScore, sv_sacrscore, 5, 0, 15, CFGFLAG_SAVE|CFGFLAG_SERVER, "Score get when sacrificed")
 MACRO_CONFIG_INT(SvWrongSacrScore, sv_wrongsacrscore, 5, 0, 10, CFGFLAG_SERVER, "player decrease score for sacrificing in wrong shrine")
 MACRO_CONFIG_INT(SvFreezeThrough, sv_freezethrough, 1, 0, 1, CFGFLAG_SAVE|CFGFLAG_SERVER, "Laser through freeze player (0 to disable)")
@@ -139,7 +140,7 @@ MACRO_CONFIG_INT(SvPunishWrongSacr, sv_punish_wrongsacr, 5, 0, 30, CFGFLAG_SERVE
 
 MACRO_CONFIG_INT(SvHammerMelt, sv_hammermelt, 3, 0, 60, CFGFLAG_SERVER, "how many ticks to subtract from freezetime, when hammering frozen teammates")
 MACRO_CONFIG_INT(SvMeltScore, sv_meltscore, 1, 0, 10, CFGFLAG_SERVER, "player score for melting")
-MACRO_CONFIG_INT(SvSacrTeammatePunish, sv_sacrteammate_punish, 1, 0, 10, CFGFLAG_SERVER, "Score decrease when sacrifice player in same team.")
+MACRO_CONFIG_INT(SvSacrTeammatePunish, sv_sacrteammate_punish, 0, 0, 10, CFGFLAG_SERVER, "Score decrease when sacrifice player in same team.")
 
 //Anticamp
 MACRO_CONFIG_INT(SvAnticamper, sv_anticamper, 2, 0, 2, CFGFLAG_SERVER, "0 disables, 1 enables anticamper in all modes and 2 only in Instagib")
@@ -155,6 +156,7 @@ MACRO_CONFIG_INT(SvMeltHammerScaleY, sv_melt_hammer_scale_y, 50, 1, 1000, CFGFLA
 
 MACRO_CONFIG_INT(SvLoltextHspace, sv_loltext_hspace, 14, 10, 25, CFGFLAG_SERVER, "horizontal offset between loltext 'pixels'")
 MACRO_CONFIG_INT(SvLoltextVspace, sv_loltext_vspace, 14, 10, 25, CFGFLAG_SERVER, "vertical offset between loltext 'pixels'")
+MACRO_CONFIG_INT(SvLoltext, sv_loltext, 1, 0, 1, CFGFLAG_SERVER, "Whether create loltext when score")
 
 // debug
 #ifdef CONF_DEBUG // this one can crash the server if not used correctly

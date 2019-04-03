@@ -836,6 +836,11 @@ void CCharacter::Freeze(int Killer, int Weapon)
 		Msg.m_ModeSpecial = ModeSpecial;
 		Server()->SendPackMsg(&Msg, MSGFLAG_VITAL, -1);
 		GameServer()->CreateDeath(m_Pos, m_pPlayer->GetCID());
+
+		// loltext
+		char lolt[64];
+		str_format(lolt, sizeof lolt, "%+d", 1);
+		GameServer()->CreateLolText(GameServer()->GetPlayerChar(Killer), false, vec2(0.f, -50.f), vec2(0.f, 0.f), 50, lolt);
 	}
 }
 
@@ -921,8 +926,11 @@ bool CCharacter::TakeDamage(vec2 Force, vec2 Source, int Dmg, int From, int Weap
 	//else
 	//	GameServer()->CreateSound(m_Pos, SOUND_PLAYER_PAIN_SHORT);
 
-	m_EmoteType = EMOTE_PAIN;
-	m_EmoteStop = Server()->Tick() + 500 * Server()->TickSpeed() / 1000;
+	if(From != m_pPlayer->GetCID())
+	{
+		m_EmoteType = EMOTE_PAIN;
+		m_EmoteStop = Server()->Tick() + 500 * Server()->TickSpeed() / 1000;
+	}
 
 	return true;
 }

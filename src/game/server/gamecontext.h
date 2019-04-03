@@ -99,6 +99,10 @@ public:
 	void AbortVoteOnDisconnect(int ClientID);
 	void AbortVoteOnTeamChange(int ClientID);
 
+	// loltext
+	int CreateLolText(CEntity *pParent, bool Follow, vec2 Pos, vec2 Vel, int Lifespan, const char *pText);
+	void DestroyLolText(int TextID);
+
 	int m_VoteCreator;
 	int m_VoteType;
 	int64 m_VoteCloseTime;

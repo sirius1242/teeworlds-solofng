@@ -18,17 +18,22 @@ int CGameControllerSoloFNG::OnCharacterDeath(class CCharacter *pVictim, class CP
 	IGameController::OnCharacterDeath(pVictim, pKiller, Weapon);
 
 	char aBuf[256];
+	char lolt[64];
 	if (Weapon == WEAPON_SACR_RED || Weapon == WEAPON_SACR_BLUE)
 	{
 		pKiller->m_Score+=g_Config.m_SvSacrificeScore;
 		str_format(aBuf, sizeof aBuf, "%s sacrificed (%+d), pleasing the gods", Server()->ClientName(pKiller->GetCID()), g_Config.m_SvSacrificeScore);
 		GameServer()->SendBroadcast(aBuf, -1);
+		str_format(lolt, sizeof lolt, "%+d", g_Config.m_SvSacrificeScore);
+		GameServer()->CreateLolText(pKiller->GetCharacter(), false, vec2(0.f, -50.f), vec2(0.f, 0.f), 50, lolt);
 	}
 	else if(Weapon == WEAPON_SACR_ALL)
 	{
 		pKiller->m_Score+=(g_Config.m_SvSacrificeScore+1)/2;
 		str_format(aBuf, sizeof aBuf, "%s sacrificed (%+d), pleasing the gods", Server()->ClientName(pKiller->GetCID()), (g_Config.m_SvSacrificeScore+1)/2);
 		GameServer()->SendBroadcast(aBuf, -1);
+		str_format(lolt, sizeof lolt, "%+d", (g_Config.m_SvSacrificeScore+1)/2);
+		GameServer()->CreateLolText(pKiller->GetCharacter(), false, vec2(0.f, -50.f), vec2(0.f, 0.f), 50, lolt);
 	}
 
 	// set sacrificer's face to happy (taunt!)

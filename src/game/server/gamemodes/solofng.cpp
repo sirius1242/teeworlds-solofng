@@ -19,7 +19,9 @@ int CGameControllerSoloFNG::OnCharacterDeath(class CCharacter *pVictim, class CP
 
 	char aBuf[256];
 	char lolt[64];
-	if (Weapon == WEAPON_SACR_RED || Weapon == WEAPON_SACR_BLUE)
+	if (pKiller == pVictim->GetPlayer())
+		return 0;
+	else if (Weapon == WEAPON_SACR_RED || Weapon == WEAPON_SACR_BLUE)
 	{
 		pKiller->m_Score+=g_Config.m_SvSacrificeScore;
 		str_format(aBuf, sizeof aBuf, "%s sacrificed (%+d), pleasing the gods", Server()->ClientName(pKiller->GetCID()), g_Config.m_SvSacrificeScore);

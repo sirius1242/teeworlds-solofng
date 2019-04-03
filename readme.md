@@ -18,6 +18,8 @@
 - `sv_hammer_scale_y`: linearly scale up hammer y power, percentage, for hammering enemies and unfrozen teammates
 - `sv_melt_hammer_scale_x`: linearly scale up hammer x power, percentage, for hammering frozen teammates
 - `sv_melt_hammer_scale_y`: linearly scale up hammer y power, percentage, for hammering frozen teammates
+- ` sv_loltext_hspace`: horizontal offset between loltext 'pixels'
+- ` sv_loltext_vspace`: vertical offset between loltext 'pixels'
 
 #### Sacrifice shrine
 

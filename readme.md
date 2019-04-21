@@ -29,7 +29,7 @@ gametype: solofng, openfng, bolofng, boomfng
 
 shrine_red is tile of number 10, shrine_blue is tile of number 12 when editing maps; shrine_all is tile of number 8, the same as 0.6.
 
-### usage
+### usage (build with bam)
 - download bam 0.5, and use `bam config` and `bam server` to compile
 - Write an autoexec.cfg, and use `build/x86_64/debug/teeworlds_srv` to execute the server
 

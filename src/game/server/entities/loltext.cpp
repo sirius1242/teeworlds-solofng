@@ -107,7 +107,7 @@ int CLoltext::Create(CGameWorld *pGameWorld, CEntity *pParent, vec2 Pos, vec2 Ve
 
 		for(int y = 0; y < 5/*XXX*/; ++y)
 			for(int x = 0; x < 3/*XXX*/; ++x)
-				if (s_aaaChars[(unsigned)c][y][x] && NumPlasmas < MAX_PLASMA_PER_LOLTEXT)
+				if (s_aaaChars[(unsigned)c%256][y][x] && NumPlasmas < MAX_PLASMA_PER_LOLTEXT)
 					s_aapPlasma[TextID][NumPlasmas++] =
 						        new CPlasma(pGameWorld, pParent, CurPos + vec2(x*g_Config.m_SvLoltextHspace, y*g_Config.m_SvLoltextVspace), Vel, Lifespan);
 		CurPos.x += 4*g_Config.m_SvLoltextHspace;
@@ -163,7 +163,7 @@ bool CLoltext::HasRepr(char c) // can be removed when we have a full character s
 {
 	for(int y = 0; y < 5; ++y)
 		for(int x = 0; x < 3; ++x)
-			if (s_aaaChars[(unsigned)c][y][x])
+			if (s_aaaChars[(unsigned)c%256][y][x])
 				return true;
 	return false;
 }

@@ -239,9 +239,9 @@ int IGameController::OnCharacterDeath(CCharacter *pVictim, CPlayer *pKiller, int
 		{
 			pKiller->m_Score+=g_Config.m_SvFreezeScore; // normal kill
 			str_format(lolt, sizeof lolt, "%+d", g_Config.m_SvFreezeScore);
+			if(g_Config.m_SvLoltext)
+				GameServer()->CreateLolText(pKiller->GetCharacter(), false, vec2(0.f, -50.f), vec2(0.f, 0.f), 50, lolt);
 		}
-		if(g_Config.m_SvLoltext)
-			GameServer()->CreateLolText(pKiller->GetCharacter(), false, vec2(0.f, -50.f), vec2(0.f, 0.f), 50, lolt);
 	}
 	if(Weapon == WEAPON_SELF)
 		pVictim->GetPlayer()->m_RespawnTick = Server()->Tick()+Server()->TickSpeed()*3.0f;

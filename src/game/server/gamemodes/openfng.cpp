@@ -18,7 +18,7 @@ int CGameControllerOpenFNG::OnCharacterDeath(class CCharacter *pVictim, class CP
 {
 	IGameController::OnCharacterDeath(pVictim, pKiller, Weapon);
 
-	if(pKiller && Weapon != WEAPON_GAME && Weapon != WEAPON_NINJA && Weapon != WEAPON_MELT)
+	if(pKiller && Weapon != WEAPON_GAME && Weapon != WEAPON_NINJA && Weapon != WEAPON_MELT && Weapon != WEAPON_HAMMER)
 	{
 		// do team scoring
 		if(pKiller->GetTeam() == pVictim->GetPlayer()->GetTeam())
